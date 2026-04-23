@@ -1,0 +1,26 @@
+include: package:very_good_analysis/analysis_options.yaml
+
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "**/*.config.dart"
+    - "lib/firebase_options.dart"
+    - "pubspec.yaml"
+  errors:
+    invalid_annotation_target: ignore
+
+linter:
+  rules:
+    # Enforce Australian English consistency and Pickles code standards.
+    avoid_print: true
+    prefer_const_constructors: true
+    prefer_const_declarations: true
+    always_use_package_imports: true
+    # Relax rules that conflict with code-gen patterns.
+    public_member_api_docs: false
+    lines_longer_than_80_chars: false
+    # Clean Architecture uses single-method repository interfaces deliberately.
+    one_member_abstracts: false
+    # Ignore-comment explanations are enforced by code review, not a lint rule.
+    document_ignores: false

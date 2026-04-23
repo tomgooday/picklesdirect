@@ -1,0 +1,53 @@
+# Flutter / Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+*.iml
+
+# Generated files — committed as placeholder stubs; overwritten by build_runner
+# lib/**/*.g.dart  ← intentionally tracked as stubs
+# lib/**/*.freezed.dart
+# lib/**/*.config.dart
+
+# iOS
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Runner.xcworkspace/xcshareddata/
+
+# Android
+android/.gradle/
+android/local.properties
+**/android/captures/
+**/android/gradlew
+**/android/gradlew.bat
+**/android/local.properties
+**/android/**/GeneratedPluginRegistrant.java
+
+# macOS
+macos/Pods/
+
+# Secrets — never commit these
+.env
+.env.*
+**/google-services.json
+**/GoogleService-Info.plist
+android/app/keystore.jks
+android/key.properties
+
+# Coverage
+coverage/
+
+# IDE
+.idea/
+.vscode/settings.json
+*.swp
+*.swo
+
+# macOS
+.DS_Store

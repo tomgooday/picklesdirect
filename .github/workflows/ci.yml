@@ -1,0 +1,235 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop, "feature/**", "release/**"]
+  pull_request:
+    branches: [main, develop]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  FLUTTER_VERSION: "3.35.5"
+
+jobs:
+  # ── Quality Gate ────────────────────────────────────────────────────────────
+  quality:
+    name: Analyse & Format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+        working-directory: pickles_direct
+
+      - name: Check formatting
+        run: dart format --set-exit-if-changed .
+        working-directory: pickles_direct
+
+      - name: Analyse
+        run: flutter analyze --fatal-infos
+        working-directory: pickles_direct
+
+  # ── Unit & Widget Tests ─────────────────────────────────────────────────────
+  test:
+    name: Tests (unit + widget)
+    runs-on: ubuntu-latest
+    needs: quality
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+        working-directory: pickles_direct
+
+      - name: Run tests with coverage
+        run: flutter test --coverage --coverage-path=coverage/lcov.info
+        working-directory: pickles_direct
+
+      - name: Check coverage threshold (80%)
+        uses: VeryGoodOpenSource/very_good_coverage@v3
+        with:
+          path: pickles_direct/coverage/lcov.info
+          min_coverage: 80
+          exclude: |
+            **/*.g.dart
+            **/*.freezed.dart
+            **/*.config.dart
+            **/firebase_options.dart
+
+      - name: Upload coverage to SonarQube
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          projectBaseDir: pickles_direct
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: pickles_direct/coverage/lcov.info
+
+  # ── SAST ─────────────────────────────────────────────────────────────────────
+  sast:
+    name: SAST (CodeQL)
+    runs-on: ubuntu-latest
+    needs: quality
+    permissions:
+      security-events: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: dart
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - run: flutter pub get
+        working-directory: pickles_direct
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+
+  # ── Android Build ────────────────────────────────────────────────────────────
+  build-android:
+    name: Build Android APK/AAB
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - run: flutter pub get
+        working-directory: pickles_direct
+
+      - name: Build Android AAB
+        run: |
+          flutter build appbundle \
+            --dart-define=APP_ENV=staging \
+            --dart-define=MIDDLEWARE_BASE_URL=${{ secrets.MIDDLEWARE_BASE_URL_STAGING }} \
+            --dart-define=AZURE_CLIENT_ID=${{ secrets.AZURE_CLIENT_ID }} \
+            --dart-define=AZURE_TENANT_ID=${{ secrets.AZURE_TENANT_ID }}
+        working-directory: pickles_direct
+
+      - name: Upload AAB artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-aab
+          path: pickles_direct/build/app/outputs/bundle/release/*.aab
+          retention-days: 14
+
+  # ── iOS Build ─────────────────────────────────────────────────────────────────
+  build-ios:
+    name: Build iOS (no-codesign)
+    runs-on: macos-15
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - run: flutter pub get
+        working-directory: pickles_direct
+
+      - name: Build iOS (no-codesign)
+        run: flutter build ios --no-codesign --release
+        working-directory: pickles_direct
+
+  # ── Web / PWA Build ──────────────────────────────────────────────────────────
+  build-web:
+    name: Build Web / PWA
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - run: flutter pub get
+        working-directory: pickles_direct
+
+      - name: Build web
+        run: flutter build web --pwa-strategy=offline-first --release
+        working-directory: pickles_direct
+
+      - name: Upload web artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-build
+          path: pickles_direct/build/web
+          retention-days: 14
+
+  # ── SBOM Generation ──────────────────────────────────────────────────────────
+  sbom:
+    name: Generate SBOM
+    runs-on: ubuntu-latest
+    needs: [build-android, build-ios, build-web]
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - run: flutter pub get
+        working-directory: pickles_direct
+
+      - name: Generate CycloneDX SBOM
+        run: |
+          dart pub global activate cyclonedx_dart
+          dart pub global run cyclonedx_dart:main \
+            --output pickles_direct_sbom.json \
+            --format json
+        working-directory: pickles_direct
+
+      - name: Upload SBOM
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom-cyclonedx
+          path: pickles_direct/pickles_direct_sbom.json
