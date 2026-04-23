@@ -11,23 +11,34 @@ import 'package:pickles_direct/core/theme/app_theme.dart';
 import 'package:pickles_direct/firebase_options.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
+  // Firebase is provisioned by Pickles Platform Ops (see EXTERNAL_DEPENDENCIES.md).
+  // Until real credentials are supplied the placeholder API keys will cause
+  // initializeApp to throw — we catch that and run without Firebase so the
+  // PWA is still usable during development.
+  var firebaseReady = false;
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    firebaseReady = true;
+  } on Exception catch (e) {
+    // ignore: avoid_print
+    print('[main] Firebase init skipped (placeholder credentials?): $e');
+  }
+
+  if (firebaseReady) {
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+  }
+
   await runZonedGuarded(
     () async {
-      WidgetsFlutterBinding.ensureInitialized();
-
-      await SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
-      ]);
-
-      await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform,
-      );
-
-      // Route all Flutter framework errors to Crashlytics.
-      FlutterError.onError =
-          FirebaseCrashlytics.instance.recordFlutterFatalError;
-
       await configureDependencies();
 
       // Start background sync engine.
@@ -35,9 +46,14 @@ Future<void> main() async {
 
       runApp(const PicklesDirectApp());
     },
-    // Route all uncaught async errors to Crashlytics.
-    (error, stack) =>
-        FirebaseCrashlytics.instance.recordError(error, stack, fatal: true),
+    (error, stack) {
+      if (firebaseReady) {
+        FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      } else {
+        // ignore: avoid_print
+        print('[main] Uncaught error (no Crashlytics): $error\n$stack');
+      }
+    },
   );
 }
 
