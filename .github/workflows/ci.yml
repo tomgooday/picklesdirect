@@ -69,6 +69,7 @@ jobs:
 
       - name: Upload coverage to SonarQube
         if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
+        continue-on-error: true
         uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
