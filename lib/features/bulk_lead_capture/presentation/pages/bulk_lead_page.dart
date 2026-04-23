@@ -90,9 +90,7 @@ class _BulkLeadForm extends StatelessWidget {
           // ── Asset type multi-select ─────────────────────────────────────
           Text(
             'What types of items do you have?',
-            style: AppTextStyles.titleMedium.copyWith(
-              color: colours.onSurface,
-            ),
+            style: AppTextStyles.titleMedium.copyWith(color: colours.onSurface),
           ),
           const SizedBox(height: AppDimensions.spacingXs),
           Text(
@@ -115,9 +113,9 @@ class _BulkLeadForm extends StatelessWidget {
               return ElevatedButton(
                 onPressed: state.isSubmitting
                     ? null
-                    : () => context
-                        .read<BulkLeadBloc>()
-                        .add(const BulkLeadSubmitRequested()),
+                    : () => context.read<BulkLeadBloc>().add(
+                        const BulkLeadSubmitRequested(),
+                      ),
                 child: state.isSubmitting
                     ? const SizedBox.square(
                         dimension: 20,

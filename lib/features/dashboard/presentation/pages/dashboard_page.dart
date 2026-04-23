@@ -26,8 +26,7 @@ class DashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) =>
-          getIt<DashboardBloc>()..add(const DashboardStarted()),
+      create: (_) => getIt<DashboardBloc>()..add(const DashboardStarted()),
       child: const _DashboardView(),
     );
   }
@@ -63,10 +62,10 @@ class _DashboardView extends StatelessWidget {
         builder: (context, state) => switch (state) {
           DashboardInitial() || DashboardLoading() => const _LoadingBody(),
           DashboardError(:final message) => _ErrorBody(
-              message: message,
-              onRetry: () =>
-                  context.read<DashboardBloc>().add(const DashboardStarted()),
-            ),
+            message: message,
+            onRetry: () =>
+                context.read<DashboardBloc>().add(const DashboardStarted()),
+          ),
           DashboardLoaded() => _LoadedBody(state: state),
         },
       ),
@@ -119,10 +118,7 @@ class _ErrorBody extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: AppDimensions.spacingLg),
-            OutlinedButton(
-              onPressed: onRetry,
-              child: const Text('Try Again'),
-            ),
+            OutlinedButton(onPressed: onRetry, child: const Text('Try Again')),
           ],
         ),
       ),
@@ -157,8 +153,9 @@ class _LoadedBody extends StatelessWidget {
         // ── Submission list ──────────────────────────────────────────────
         Expanded(
           child: RefreshIndicator(
-            onRefresh: () async =>
-                context.read<DashboardBloc>().add(const DashboardSyncRequested()),
+            onRefresh: () async => context.read<DashboardBloc>().add(
+              const DashboardSyncRequested(),
+            ),
             child: CustomScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
               slivers: [
@@ -170,7 +167,9 @@ class _LoadedBody extends StatelessWidget {
                   ),
                 ],
                 if (state.submitted.isNotEmpty) ...[
-                  _SectionHeader(title: 'Submitted (${state.submitted.length})'),
+                  _SectionHeader(
+                    title: 'Submitted (${state.submitted.length})',
+                  ),
                   _SubmissionSliver(
                     items: state.submitted,
                     onTap: (item) => _onSubmittedTapped(context, item),
@@ -178,7 +177,9 @@ class _LoadedBody extends StatelessWidget {
                 ],
                 // Bottom padding so FAB does not obscure last card.
                 const SliverToBoxAdapter(
-                  child: SizedBox(height: AppDimensions.spacingXxl + AppDimensions.spacingXl),
+                  child: SizedBox(
+                    height: AppDimensions.spacingXxl + AppDimensions.spacingXl,
+                  ),
                 ),
               ],
             ),
@@ -224,9 +225,7 @@ class _SectionHeader extends StatelessWidget {
         ),
         child: Text(
           title,
-          style: AppTextStyles.titleMedium.copyWith(
-            color: colours.onSurface,
-          ),
+          style: AppTextStyles.titleMedium.copyWith(color: colours.onSurface),
         ),
       ),
     );

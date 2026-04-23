@@ -34,7 +34,5 @@ Future<void> configureDependencies() async {
     ..registerSingleton<RouterNotifier>(
       RouterNotifier(getIt<AuthStateStream>()),
     )
-    ..registerSingleton<AppRouter>(
-      AppRouter(getIt<RouterNotifier>()),
-    );
+    ..registerSingleton<AppRouter>(AppRouter(getIt<RouterNotifier>()));
 }

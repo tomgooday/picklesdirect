@@ -15,17 +15,13 @@ final class DashboardLoading extends DashboardState {
 }
 
 final class DashboardLoaded extends DashboardState {
-  const DashboardLoaded({
-    required this.items,
-    required this.syncStatus,
-  });
+  const DashboardLoaded({required this.items, required this.syncStatus});
 
   final List<SubmissionSummary> items;
   final SyncStatus syncStatus;
 
   /// Local drafts — shown in the "Drafts" section.
-  List<SubmissionSummary> get drafts =>
-      items.where((i) => i.isLocal).toList();
+  List<SubmissionSummary> get drafts => items.where((i) => i.isLocal).toList();
 
   /// Server-confirmed assets — shown in the "Submitted" section.
   List<SubmissionSummary> get submitted =>
@@ -36,11 +32,10 @@ final class DashboardLoaded extends DashboardState {
   DashboardLoaded copyWith({
     List<SubmissionSummary>? items,
     SyncStatus? syncStatus,
-  }) =>
-      DashboardLoaded(
-        items: items ?? this.items,
-        syncStatus: syncStatus ?? this.syncStatus,
-      );
+  }) => DashboardLoaded(
+    items: items ?? this.items,
+    syncStatus: syncStatus ?? this.syncStatus,
+  );
 
   @override
   List<Object?> get props => [items, syncStatus];

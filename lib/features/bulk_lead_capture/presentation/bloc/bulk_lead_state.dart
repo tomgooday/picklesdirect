@@ -11,15 +11,15 @@ final class BulkLeadState extends Equatable {
   });
 
   factory BulkLeadState.initial() => BulkLeadState(
-        lead: BulkLead(
-          id: const Uuid().v4(),
-          vendorName: '',
-          phone: '',
-          email: '',
-          assetItems: const [],
-        ),
-        status: BulkLeadFormStatus.initial,
-      );
+    lead: BulkLead(
+      id: const Uuid().v4(),
+      vendorName: '',
+      phone: '',
+      email: '',
+      assetItems: const [],
+    ),
+    status: BulkLeadFormStatus.initial,
+  );
 
   final BulkLead lead;
   final BulkLeadFormStatus status;
@@ -40,13 +40,12 @@ final class BulkLeadState extends Equatable {
     BulkLeadFormStatus? status,
     Failure? failure,
     String? submittedRemoteId,
-  }) =>
-      BulkLeadState(
-        lead: lead ?? this.lead,
-        status: status ?? this.status,
-        failure: failure ?? this.failure,
-        submittedRemoteId: submittedRemoteId ?? this.submittedRemoteId,
-      );
+  }) => BulkLeadState(
+    lead: lead ?? this.lead,
+    status: status ?? this.status,
+    failure: failure ?? this.failure,
+    submittedRemoteId: submittedRemoteId ?? this.submittedRemoteId,
+  );
 
   @override
   List<Object?> get props => [lead, status, failure, submittedRemoteId];

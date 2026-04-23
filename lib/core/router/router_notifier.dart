@@ -30,7 +30,8 @@ class RouterNotifier extends ChangeNotifier {
   String? redirect(BuildContext context, GoRouterState routerState) {
     final location = routerState.matchedLocation;
 
-    final isPublicRoute = location == Routes.login ||
+    final isPublicRoute =
+        location == Routes.login ||
         location == Routes.register ||
         location == Routes.onboarding ||
         location == Routes.forgotPassword ||

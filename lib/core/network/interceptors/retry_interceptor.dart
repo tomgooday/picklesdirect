@@ -19,8 +19,7 @@ class RetryInterceptor extends Interceptor {
     DioException err,
     ErrorInterceptorHandler handler,
   ) async {
-    final retryCount =
-        (err.requestOptions.extra['retryCount'] as int?) ?? 0;
+    final retryCount = (err.requestOptions.extra['retryCount'] as int?) ?? 0;
 
     final isRetryable = _isRetryable(err);
     if (isRetryable && retryCount < _maxRetries) {
@@ -48,6 +47,8 @@ class RetryInterceptor extends Interceptor {
 
   Duration _backoffDelay(int attempt) {
     final jitter = Random().nextInt(200);
-    return Duration(milliseconds: _baseDelayMs * pow(2, attempt).toInt() + jitter);
+    return Duration(
+      milliseconds: _baseDelayMs * pow(2, attempt).toInt() + jitter,
+    );
   }
 }

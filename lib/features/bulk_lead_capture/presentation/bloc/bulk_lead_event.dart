@@ -8,11 +8,7 @@ sealed class BulkLeadEvent extends Equatable {
 
 /// Vendor contact detail field changed.
 final class BulkLeadVendorDetailsChanged extends BulkLeadEvent {
-  const BulkLeadVendorDetailsChanged({
-    this.vendorName,
-    this.phone,
-    this.email,
-  });
+  const BulkLeadVendorDetailsChanged({this.vendorName, this.phone, this.email});
   final String? vendorName;
   final String? phone;
   final String? email;

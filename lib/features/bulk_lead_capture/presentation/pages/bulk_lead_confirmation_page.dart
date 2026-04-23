@@ -13,8 +13,9 @@ class BulkLeadConfirmationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colours =
-        theme.brightness == Brightness.dark ? AppColours.dark : AppColours.light;
+    final colours = theme.brightness == Brightness.dark
+        ? AppColours.dark
+        : AppColours.light;
 
     return Scaffold(
       backgroundColor: colours.background,

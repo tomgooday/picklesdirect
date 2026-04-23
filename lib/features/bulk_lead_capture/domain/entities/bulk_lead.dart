@@ -41,20 +41,26 @@ final class BulkLead extends Equatable {
     List<BulkLeadAssetItem>? assetItems,
     BulkLeadStatus? status,
     DateTime? submittedAt,
-  }) =>
-      BulkLead(
-        id: id,
-        vendorName: vendorName ?? this.vendorName,
-        phone: phone ?? this.phone,
-        email: email ?? this.email,
-        assetItems: assetItems ?? this.assetItems,
-        status: status ?? this.status,
-        submittedAt: submittedAt ?? this.submittedAt,
-      );
+  }) => BulkLead(
+    id: id,
+    vendorName: vendorName ?? this.vendorName,
+    phone: phone ?? this.phone,
+    email: email ?? this.email,
+    assetItems: assetItems ?? this.assetItems,
+    status: status ?? this.status,
+    submittedAt: submittedAt ?? this.submittedAt,
+  );
 
   @override
-  List<Object?> get props =>
-      [id, vendorName, phone, email, assetItems, status, submittedAt];
+  List<Object?> get props => [
+    id,
+    vendorName,
+    phone,
+    email,
+    assetItems,
+    status,
+    submittedAt,
+  ];
 }
 
 /// A single asset type entry within a [BulkLead].
@@ -93,23 +99,22 @@ final class BulkLeadAssetItem extends Equatable {
     int? quantity,
     String? make,
     String? model,
-  }) =>
-      BulkLeadAssetItem(
-        assetTypeKey: assetTypeKey ?? this.assetTypeKey,
-        assetTypeLabel: assetTypeLabel ?? this.assetTypeLabel,
-        quantity: quantity ?? this.quantity,
-        make: make ?? this.make,
-        model: model ?? this.model,
-      );
+  }) => BulkLeadAssetItem(
+    assetTypeKey: assetTypeKey ?? this.assetTypeKey,
+    assetTypeLabel: assetTypeLabel ?? this.assetTypeLabel,
+    quantity: quantity ?? this.quantity,
+    make: make ?? this.make,
+    model: model ?? this.model,
+  );
 
   @override
-  List<Object?> get props =>
-      [assetTypeKey, assetTypeLabel, quantity, make, model];
+  List<Object?> get props => [
+    assetTypeKey,
+    assetTypeLabel,
+    quantity,
+    make,
+    model,
+  ];
 }
 
-enum BulkLeadStatus {
-  draft,
-  submitting,
-  submitted,
-  failed;
-}
+enum BulkLeadStatus { draft, submitting, submitted, failed }

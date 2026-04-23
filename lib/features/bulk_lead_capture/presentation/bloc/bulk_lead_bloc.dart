@@ -11,8 +11,7 @@ part 'bulk_lead_state.dart';
 
 @injectable
 class BulkLeadBloc extends Bloc<BulkLeadEvent, BulkLeadState> {
-  BulkLeadBloc(this._submitBulkLead)
-      : super(BulkLeadState.initial()) {
+  BulkLeadBloc(this._submitBulkLead) : super(BulkLeadState.initial()) {
     on<BulkLeadVendorDetailsChanged>(_onVendorDetailsChanged);
     on<BulkLeadAssetTypeToggled>(_onAssetTypeToggled);
     on<BulkLeadAssetItemUpdated>(_onAssetItemUpdated);
@@ -42,8 +41,9 @@ class BulkLeadBloc extends Bloc<BulkLeadEvent, BulkLeadState> {
     Emitter<BulkLeadState> emit,
   ) {
     final items = List<BulkLeadAssetItem>.from(state.lead.assetItems);
-    final existingIndex =
-        items.indexWhere((i) => i.assetTypeKey == event.assetTypeKey);
+    final existingIndex = items.indexWhere(
+      (i) => i.assetTypeKey == event.assetTypeKey,
+    );
 
     if (existingIndex >= 0) {
       // Deselect — remove the item (BR-07B: fields collapse on deselect).
@@ -67,8 +67,7 @@ class BulkLeadBloc extends Bloc<BulkLeadEvent, BulkLeadState> {
     Emitter<BulkLeadState> emit,
   ) {
     final items = List<BulkLeadAssetItem>.from(state.lead.assetItems);
-    final index =
-        items.indexWhere((i) => i.assetTypeKey == event.assetTypeKey);
+    final index = items.indexWhere((i) => i.assetTypeKey == event.assetTypeKey);
     if (index < 0) return;
 
     items[index] = items[index].copyWith(
@@ -90,10 +89,7 @@ class BulkLeadBloc extends Bloc<BulkLeadEvent, BulkLeadState> {
 
     result.fold(
       (failure) => emit(
-        state.copyWith(
-          status: BulkLeadFormStatus.failure,
-          failure: failure,
-        ),
+        state.copyWith(status: BulkLeadFormStatus.failure, failure: failure),
       ),
       (remoteId) => emit(
         state.copyWith(

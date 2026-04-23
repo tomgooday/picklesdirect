@@ -70,11 +70,11 @@ class _AssetTypeRow extends StatelessWidget {
         // ── Checkbox row ───────────────────────────────────────────────────
         InkWell(
           onTap: () => context.read<BulkLeadBloc>().add(
-                BulkLeadAssetTypeToggled(
-                  assetTypeKey: option.key,
-                  assetTypeLabel: option.label,
-                ),
-              ),
+            BulkLeadAssetTypeToggled(
+              assetTypeKey: option.key,
+              assetTypeLabel: option.label,
+            ),
+          ),
           borderRadius: BorderRadius.circular(AppDimensions.radiusSm),
           child: Padding(
             padding: const EdgeInsets.symmetric(
@@ -85,11 +85,11 @@ class _AssetTypeRow extends StatelessWidget {
                 Checkbox(
                   value: selected,
                   onChanged: (_) => context.read<BulkLeadBloc>().add(
-                        BulkLeadAssetTypeToggled(
-                          assetTypeKey: option.key,
-                          assetTypeLabel: option.label,
-                        ),
-                      ),
+                    BulkLeadAssetTypeToggled(
+                      assetTypeKey: option.key,
+                      assetTypeLabel: option.label,
+                    ),
+                  ),
                   activeColor: Theme.of(context).colorScheme.primary,
                 ),
                 const SizedBox(width: AppDimensions.spacingSm),
@@ -136,7 +136,14 @@ class _AssetItemFieldsState extends State<_AssetItemFields> {
 
   // Phase 1 make lists per asset type — to be driven by asset schema API.
   static const Map<String, List<String>> _makesByType = {
-    'excavators': ['Caterpillar', 'Komatsu', 'Hitachi', 'Volvo', 'Liebherr', 'Hyundai'],
+    'excavators': [
+      'Caterpillar',
+      'Komatsu',
+      'Hitachi',
+      'Volvo',
+      'Liebherr',
+      'Hyundai',
+    ],
     'loaders': ['Caterpillar', 'Komatsu', 'Volvo', 'JCB', 'Case'],
     'bulldozers': ['Caterpillar', 'Komatsu', 'John Deere', 'Case'],
     'graders': ['Caterpillar', 'Komatsu', 'John Deere', 'Volvo'],
@@ -154,8 +161,10 @@ class _AssetItemFieldsState extends State<_AssetItemFields> {
     _selectedMake = widget.item.make;
     _selectedModel = widget.item.model;
     _quantity = widget.item.quantity;
-    _makeIsOther = _selectedMake == 'Other' || (_selectedMake != null &&
-        !(_makesByType[widget.assetTypeKey] ?? []).contains(_selectedMake));
+    _makeIsOther =
+        _selectedMake == 'Other' ||
+        (_selectedMake != null &&
+            !(_makesByType[widget.assetTypeKey] ?? []).contains(_selectedMake));
   }
 
   @override
@@ -165,20 +174,22 @@ class _AssetItemFieldsState extends State<_AssetItemFields> {
     super.dispose();
   }
 
-  List<String> get _makes =>
-      [...(_makesByType[widget.assetTypeKey] ?? []), 'Other'];
+  List<String> get _makes => [
+    ...(_makesByType[widget.assetTypeKey] ?? []),
+    'Other',
+  ];
 
   void _dispatch() {
     context.read<BulkLeadBloc>().add(
-          BulkLeadAssetItemUpdated(
-            assetTypeKey: widget.assetTypeKey,
-            quantity: _quantity,
-            make: _makeIsOther ? _otherMakeController.text : _selectedMake,
-            model: (_selectedModel == 'Other' || _selectedModel == null)
-                ? _otherModelController.text
-                : _selectedModel,
-          ),
-        );
+      BulkLeadAssetItemUpdated(
+        assetTypeKey: widget.assetTypeKey,
+        quantity: _quantity,
+        make: _makeIsOther ? _otherMakeController.text : _selectedMake,
+        model: (_selectedModel == 'Other' || _selectedModel == null)
+            ? _otherModelController.text
+            : _selectedModel,
+      ),
+    );
   }
 
   @override
@@ -268,11 +279,10 @@ class _QuantitySelector extends StatelessWidget {
           visualDensity: VisualDensity.compact,
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppDimensions.spacingMd),
-          child: Text(
-            '$value',
-            style: AppTextStyles.titleMedium,
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppDimensions.spacingMd,
           ),
+          child: Text('$value', style: AppTextStyles.titleMedium),
         ),
         IconButton.outlined(
           onPressed: () => onChanged(value + 1),

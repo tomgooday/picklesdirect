@@ -30,15 +30,15 @@ final class User extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        email,
-        displayName,
-        status,
-        businessName,
-        abn,
-        tcVersionAccepted,
-        privacyVersionAccepted,
-      ];
+    id,
+    email,
+    displayName,
+    status,
+    businessName,
+    abn,
+    tcVersionAccepted,
+    privacyVersionAccepted,
+  ];
 }
 
 enum UserStatus {
@@ -48,10 +48,10 @@ enum UserStatus {
   closed;
 
   static UserStatus fromString(String value) => switch (value.toLowerCase()) {
-        'active' => UserStatus.active,
-        'pending_approval' || 'pending' => UserStatus.pendingApproval,
-        'suspended' => UserStatus.suspended,
-        'closed' => UserStatus.closed,
-        _ => UserStatus.pendingApproval,
-      };
+    'active' => UserStatus.active,
+    'pending_approval' || 'pending' => UserStatus.pendingApproval,
+    'suspended' => UserStatus.suspended,
+    'closed' => UserStatus.closed,
+    _ => UserStatus.pendingApproval,
+  };
 }

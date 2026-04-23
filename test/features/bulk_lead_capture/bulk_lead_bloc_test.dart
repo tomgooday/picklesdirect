@@ -59,14 +59,18 @@ void main() {
         'removes asset item when type deselected',
         build: () => bloc,
         act: (b) => b
-          ..add(const BulkLeadAssetTypeToggled(
-            assetTypeKey: 'excavators',
-            assetTypeLabel: 'Excavators',
-          ))
-          ..add(const BulkLeadAssetTypeToggled(
-            assetTypeKey: 'excavators',
-            assetTypeLabel: 'Excavators',
-          )),
+          ..add(
+            const BulkLeadAssetTypeToggled(
+              assetTypeKey: 'excavators',
+              assetTypeLabel: 'Excavators',
+            ),
+          )
+          ..add(
+            const BulkLeadAssetTypeToggled(
+              assetTypeKey: 'excavators',
+              assetTypeLabel: 'Excavators',
+            ),
+          ),
         verify: (b) {
           expect(b.state.isAssetTypeSelected('excavators'), isFalse);
           expect(b.state.lead.assetItems, isEmpty);
@@ -78,9 +82,9 @@ void main() {
       blocTest<BulkLeadBloc, BulkLeadState>(
         'emits submitting then success on valid lead',
         build: () {
-          when(() => mockSubmit(any())).thenAnswer(
-            (_) async => const Right('remote-lead-id-001'),
-          );
+          when(
+            () => mockSubmit(any()),
+          ).thenAnswer((_) async => const Right('remote-lead-id-001'));
           return bloc;
         },
         seed: () => const BulkLeadState(
@@ -118,10 +122,16 @@ void main() {
         ),
         act: (b) => b.add(const BulkLeadSubmitRequested()),
         expect: () => [
-          isA<BulkLeadState>()
-              .having((s) => s.status, 'status', BulkLeadFormStatus.submitting),
-          isA<BulkLeadState>()
-              .having((s) => s.status, 'status', BulkLeadFormStatus.failure),
+          isA<BulkLeadState>().having(
+            (s) => s.status,
+            'status',
+            BulkLeadFormStatus.submitting,
+          ),
+          isA<BulkLeadState>().having(
+            (s) => s.status,
+            'status',
+            BulkLeadFormStatus.failure,
+          ),
         ],
       );
     });

@@ -85,8 +85,12 @@ abstract final class AppTheme {
           borderRadius: BorderRadius.circular(AppDimensions.radiusSm),
           borderSide: BorderSide(color: colours.scheme.error),
         ),
-        labelStyle: AppTextStyles.bodyMedium.copyWith(color: colours.onSurfaceVariant),
-        errorStyle: AppTextStyles.bodySmall.copyWith(color: colours.scheme.error),
+        labelStyle: AppTextStyles.bodyMedium.copyWith(
+          color: colours.onSurfaceVariant,
+        ),
+        errorStyle: AppTextStyles.bodySmall.copyWith(
+          color: colours.scheme.error,
+        ),
       ),
 
       cardTheme: CardThemeData(
@@ -151,13 +155,13 @@ final class _LightColours implements ColourTokens {
 
   @override
   ColorScheme get scheme => const ColorScheme.light(
-        primary: Color(0xFFE8321A),      // Pickles red
-        primaryContainer: Color(0xFFFFDAD5),
-        secondary: Color(0xFF1A1A1A),    // Near-black
-        onSecondary: Colors.white,
-        onSurface: Color(0xFF1A1A1A),
-        error: Color(0xFFBA1A1A),
-      );
+    primary: Color(0xFFE8321A), // Pickles red
+    primaryContainer: Color(0xFFFFDAD5),
+    secondary: Color(0xFF1A1A1A), // Near-black
+    onSecondary: Colors.white,
+    onSurface: Color(0xFF1A1A1A),
+    error: Color(0xFFBA1A1A),
+  );
 
   @override
   Color get background => const Color(0xFFF6F6F6);
@@ -193,16 +197,16 @@ final class _DarkColours implements ColourTokens {
 
   @override
   ColorScheme get scheme => const ColorScheme.dark(
-        primary: Color(0xFFFF8A78),
-        onPrimary: Color(0xFF5F1409),
-        primaryContainer: Color(0xFF8B1B0B),
-        secondary: Color(0xFFE0E0E0),
-        onSecondary: Color(0xFF1A1A1A),
-        surface: Color(0xFF1E1E1E),
-        onSurface: Color(0xFFE0E0E0),
-        error: Color(0xFFFFB4AB),
-        onError: Color(0xFF690005),
-      );
+    primary: Color(0xFFFF8A78),
+    onPrimary: Color(0xFF5F1409),
+    primaryContainer: Color(0xFF8B1B0B),
+    secondary: Color(0xFFE0E0E0),
+    onSecondary: Color(0xFF1A1A1A),
+    surface: Color(0xFF1E1E1E),
+    onSurface: Color(0xFFE0E0E0),
+    error: Color(0xFFFFB4AB),
+    onError: Color(0xFF690005),
+  );
 
   @override
   Color get background => const Color(0xFF121212);

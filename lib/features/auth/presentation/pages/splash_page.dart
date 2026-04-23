@@ -66,10 +66,11 @@ class _SplashView extends StatelessWidget {
                 Text(
                   'Loading…',
                   style: AppTextStyles.labelMedium.copyWith(
-                    color: (Theme.of(context).brightness == Brightness.dark
-                            ? AppColours.dark
-                            : AppColours.light)
-                        .onSurfaceVariant,
+                    color:
+                        (Theme.of(context).brightness == Brightness.dark
+                                ? AppColours.dark
+                                : AppColours.light)
+                            .onSurfaceVariant,
                   ),
                 ),
               ],

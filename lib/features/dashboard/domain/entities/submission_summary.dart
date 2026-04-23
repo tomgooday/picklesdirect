@@ -39,15 +39,15 @@ final class SubmissionSummary extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        assetLabel,
-        assetCategory,
-        status,
-        updatedAt,
-        remoteId,
-        photoCount,
-        lastSyncError,
-      ];
+    id,
+    assetLabel,
+    assetCategory,
+    status,
+    updatedAt,
+    remoteId,
+    photoCount,
+    lastSyncError,
+  ];
 }
 
 /// All possible states a submission can be in, spanning local draft lifecycle
@@ -79,22 +79,19 @@ enum SubmissionStatus {
 
   /// Whether this status represents a locally-held draft (not yet on server).
   bool get isLocal =>
-      this == draft ||
-      this == queued ||
-      this == syncing ||
-      this == syncFailed;
+      this == draft || this == queued || this == syncing || this == syncFailed;
 
   /// Human-readable label shown in status chips.
   String get displayLabel => switch (this) {
-        draft => 'Draft',
-        queued => 'Queued',
-        syncing => 'Syncing',
-        syncFailed => 'Sync Failed',
-        submitted => 'Submitted',
-        valuationPending => 'Valuation Pending',
-        accepted => 'Accepted',
-        listed => 'Listed',
-      };
+    draft => 'Draft',
+    queued => 'Queued',
+    syncing => 'Syncing',
+    syncFailed => 'Sync Failed',
+    submitted => 'Submitted',
+    valuationPending => 'Valuation Pending',
+    accepted => 'Accepted',
+    listed => 'Listed',
+  };
 
   /// Derives a [SubmissionStatus] from the `syncStatus` string stored in the
   /// `SyncQueue` database table.

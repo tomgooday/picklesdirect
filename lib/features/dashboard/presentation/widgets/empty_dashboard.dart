@@ -15,7 +15,9 @@ class EmptyDashboard extends StatelessWidget {
 
     return Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: AppDimensions.spacingXl),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppDimensions.spacingXl,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

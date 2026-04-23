@@ -54,12 +54,12 @@ class _RegisterViewState extends State<_RegisterView> {
 
   void _submit(BuildContext context) {
     context.read<AuthBloc>().add(
-          AuthRegisterRequested(
-            email: _emailController.text.trim(),
-            password: _passwordController.text,
-            displayName: _nameController.text.trim(),
-          ),
-        );
+      AuthRegisterRequested(
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
+        displayName: _nameController.text.trim(),
+      ),
+    );
   }
 
   @override
@@ -163,14 +163,16 @@ class _CredentialsStep extends StatelessWidget {
 
             Text(
               'Create your account',
-              style: AppTextStyles.headlineMedium
-                  .copyWith(color: colours.onSurface),
+              style: AppTextStyles.headlineMedium.copyWith(
+                color: colours.onSurface,
+              ),
             ),
             const SizedBox(height: AppDimensions.spacingXs),
             Text(
               'Step 1 of 2 — Account details',
-              style: AppTextStyles.bodySmall
-                  .copyWith(color: colours.onSurfaceVariant),
+              style: AppTextStyles.bodySmall.copyWith(
+                color: colours.onSurfaceVariant,
+              ),
             ),
 
             const SizedBox(height: AppDimensions.spacingLg),
@@ -241,10 +243,7 @@ class _CredentialsStep extends StatelessWidget {
 
             const SizedBox(height: AppDimensions.spacingXl),
 
-            ElevatedButton(
-              onPressed: onNext,
-              child: const Text('Continue'),
-            ),
+            ElevatedButton(onPressed: onNext, child: const Text('Continue')),
 
             const SizedBox(height: AppDimensions.spacingMd),
 
@@ -253,8 +252,9 @@ class _CredentialsStep extends StatelessWidget {
               children: [
                 Text(
                   'Already have an account? ',
-                  style: AppTextStyles.bodyMedium
-                      .copyWith(color: colours.onSurfaceVariant),
+                  style: AppTextStyles.bodyMedium.copyWith(
+                    color: colours.onSurfaceVariant,
+                  ),
                 ),
                 TextButton(
                   onPressed: () => context.pop(),
@@ -336,14 +336,16 @@ class _BusinessProfileStepState extends State<_BusinessProfileStep> {
 
             Text(
               'Business profile',
-              style: AppTextStyles.headlineMedium
-                  .copyWith(color: colours.onSurface),
+              style: AppTextStyles.headlineMedium.copyWith(
+                color: colours.onSurface,
+              ),
             ),
             const SizedBox(height: AppDimensions.spacingXs),
             Text(
               'Step 2 of 2 — Required to verify your identity and process payments',
-              style: AppTextStyles.bodySmall
-                  .copyWith(color: colours.onSurfaceVariant),
+              style: AppTextStyles.bodySmall.copyWith(
+                color: colours.onSurfaceVariant,
+              ),
             ),
 
             const SizedBox(height: AppDimensions.spacingLg),
@@ -408,7 +410,9 @@ class _BusinessProfileStepState extends State<_BusinessProfileStep> {
               onChanged: (v) => setState(() => _agreedToPrivacy = v ?? false),
               label: 'I have read and accept the ',
               linkLabel: 'Privacy Policy',
-              onLinkTap: () {/* TODO(pickles): open privacy policy URL */},
+              onLinkTap: () {
+                /* TODO(pickles): open privacy policy URL */
+              },
             ),
 
             const SizedBox(height: AppDimensions.spacingXl),
@@ -417,8 +421,7 @@ class _BusinessProfileStepState extends State<_BusinessProfileStep> {
               builder: (context, state) {
                 final loading = state is AuthLoading;
                 return ElevatedButton(
-                  onPressed:
-                      loading ? null : () => _submit(context),
+                  onPressed: loading ? null : () => _submit(context),
                   child: loading
                       ? const SizedBox.square(
                           dimension: 20,
@@ -464,7 +467,7 @@ class _BusinessProfileStepState extends State<_BusinessProfileStep> {
 // ── Shared widgets ────────────────────────────────────────────────────────────
 
 class _ConsentCheckbox extends StatelessWidget {
-  const   _ConsentCheckbox({
+  const _ConsentCheckbox({
     required this.value,
     required this.onChanged,
     required this.label,
@@ -497,8 +500,9 @@ class _ConsentCheckbox extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: AppTextStyles.bodySmall
-                      .copyWith(color: colours.onSurfaceVariant),
+                  style: AppTextStyles.bodySmall.copyWith(
+                    color: colours.onSurfaceVariant,
+                  ),
                 ),
                 GestureDetector(
                   onTap: onLinkTap,
@@ -520,10 +524,7 @@ class _ConsentCheckbox extends StatelessWidget {
 }
 
 class _StepIndicator extends StatelessWidget {
-  const _StepIndicator({
-    required this.currentStep,
-    required this.totalSteps,
-  });
+  const _StepIndicator({required this.currentStep, required this.totalSteps});
 
   final int currentStep;
   final int totalSteps;

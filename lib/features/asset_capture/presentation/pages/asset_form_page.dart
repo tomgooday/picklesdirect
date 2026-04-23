@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AssetFormPage extends StatelessWidget {
-  const AssetFormPage({
-    required this.categoryKey,
-    super.key,
-    this.draftId,
-  });
+  const AssetFormPage({required this.categoryKey, super.key, this.draftId});
 
   final String categoryKey;
   final String? draftId;

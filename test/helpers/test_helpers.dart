@@ -32,8 +32,14 @@ const kTestUserNoTc = User(
 );
 
 const kTestNetworkFailure = NetworkFailure();
-const kTestServerFailure = ServerFailure(message: 'Internal server error.', statusCode: 500);
-const kTestAuthFailure = AuthFailure(message: 'Invalid credentials.', code: 'invalid_credentials');
+const kTestServerFailure = ServerFailure(
+  message: 'Internal server error.',
+  statusCode: 500,
+);
+const kTestAuthFailure = AuthFailure(
+  message: 'Invalid credentials.',
+  code: 'invalid_credentials',
+);
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 

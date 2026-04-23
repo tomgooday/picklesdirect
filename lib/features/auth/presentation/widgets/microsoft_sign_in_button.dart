@@ -28,7 +28,9 @@ class MicrosoftSignInButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppDimensions.radiusMd),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: AppDimensions.spacingMd),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppDimensions.spacingMd,
+        ),
       ),
       child: isLoading
           ? const SizedBox.square(

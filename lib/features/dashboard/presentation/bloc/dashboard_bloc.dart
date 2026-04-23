@@ -13,7 +13,7 @@ part 'dashboard_state.dart';
 @injectable
 class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   DashboardBloc(this._watchDashboardItems, this._syncEngine)
-      : super(const DashboardInitial()) {
+    : super(const DashboardInitial()) {
     on<DashboardStarted>(_onStarted);
     on<DashboardSyncRequested>(_onSyncRequested);
     on<_ItemsReceived>(_onItemsReceived);
@@ -37,7 +37,9 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     _itemsSub = _watchDashboardItems().listen(
       (items) => add(_ItemsReceived(items)),
       onError: (Object e) => add(
-        const _ItemsErrorReceived('Unable to load submissions. Please try again.'),
+        const _ItemsErrorReceived(
+          'Unable to load submissions. Please try again.',
+        ),
       ),
     );
 
@@ -56,10 +58,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     _syncEngine.syncNow();
   }
 
-  void _onItemsReceived(
-    _ItemsReceived event,
-    Emitter<DashboardState> emit,
-  ) {
+  void _onItemsReceived(_ItemsReceived event, Emitter<DashboardState> emit) {
     final current = state;
     emit(
       DashboardLoaded(

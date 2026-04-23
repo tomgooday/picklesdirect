@@ -22,8 +22,7 @@ class AuthInterceptor extends Interceptor {
     if (token != null) {
       options.headers['Authorization'] = 'Bearer $token';
     }
-    options.headers['X-Api-Key'] =
-        options.extra['kongApiKey'] as String? ?? '';
+    options.headers['X-Api-Key'] = options.extra['kongApiKey'] as String? ?? '';
     handler.next(options);
   }
 
@@ -42,9 +41,7 @@ class AuthInterceptor extends Interceptor {
         await _tokenStorage.refreshTokens();
         final token = await _tokenStorage.getAccessToken();
         err.requestOptions.headers['Authorization'] = 'Bearer $token';
-        handler.resolve(
-          await Dio().fetch(err.requestOptions),
-        );
+        handler.resolve(await Dio().fetch(err.requestOptions));
       } on Exception catch (_) {
         await _tokenStorage.clearTokens();
         handler.reject(err);

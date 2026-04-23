@@ -58,8 +58,8 @@ class _TermsViewState extends State<_TermsView> {
 
   void _accept(BuildContext context) {
     context.read<AuthBloc>().add(
-          const AuthTermsAccepted(version: AppConstants.termsVersion),
-        );
+      const AuthTermsAccepted(version: AppConstants.termsVersion),
+    );
   }
 
   @override
@@ -96,10 +96,9 @@ class _TermsViewState extends State<_TermsView> {
             // ── Header ───────────────────────────────────────────────────
             Container(
               width: double.infinity,
-              color: Theme.of(context)
-                  .colorScheme
-                  .primaryContainer
-                  .withAlpha(60),
+              color: Theme.of(
+                context,
+              ).colorScheme.primaryContainer.withAlpha(60),
               padding: const EdgeInsets.all(AppDimensions.spacingMd),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,10 +127,9 @@ class _TermsViewState extends State<_TermsView> {
                   horizontal: AppDimensions.spacingMd,
                   vertical: AppDimensions.spacingXs,
                 ),
-                color: Theme.of(context)
-                    .colorScheme
-                    .secondaryContainer
-                    .withAlpha(120),
+                color: Theme.of(
+                  context,
+                ).colorScheme.secondaryContainer.withAlpha(120),
                 child: Row(
                   children: [
                     Icon(
@@ -197,8 +195,9 @@ class _TermsViewState extends State<_TermsView> {
                         Expanded(
                           child: Text(
                             'I have read and agree to the Pickles Direct Terms & Conditions',
-                            style: AppTextStyles.bodySmall
-                                .copyWith(color: colours.onSurface),
+                            style: AppTextStyles.bodySmall.copyWith(
+                              color: colours.onSurface,
+                            ),
                           ),
                         ),
                       ],
@@ -210,8 +209,9 @@ class _TermsViewState extends State<_TermsView> {
                       builder: (context, state) {
                         final loading = state is AuthLoading;
                         return ElevatedButton(
-                          onPressed:
-                              (_agreed && !loading) ? () => _accept(context) : null,
+                          onPressed: (_agreed && !loading)
+                              ? () => _accept(context)
+                              : null,
                           child: loading
                               ? const SizedBox.square(
                                   dimension: 20,
@@ -234,10 +234,7 @@ class _TermsViewState extends State<_TermsView> {
     );
   }
 
-  List<Widget> _buildTermsSections(
-    BuildContext context,
-    ColourTokens colours,
-  ) {
+  List<Widget> _buildTermsSections(BuildContext context, ColourTokens colours) {
     const headingStyle = TextStyle(fontWeight: FontWeight.w600);
 
     return [

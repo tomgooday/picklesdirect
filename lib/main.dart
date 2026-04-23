@@ -25,7 +25,8 @@ Future<void> main() async {
       );
 
       // Route all Flutter framework errors to Crashlytics.
-      FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+      FlutterError.onError =
+          FirebaseCrashlytics.instance.recordFlutterFatalError;
 
       await configureDependencies();
 
@@ -35,11 +36,8 @@ Future<void> main() async {
       runApp(const PicklesDirectApp());
     },
     // Route all uncaught async errors to Crashlytics.
-    (error, stack) => FirebaseCrashlytics.instance.recordError(
-      error,
-      stack,
-      fatal: true,
-    ),
+    (error, stack) =>
+        FirebaseCrashlytics.instance.recordError(error, stack, fatal: true),
   );
 }
 

@@ -87,8 +87,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     emit(const AuthLoading());
-    final result =
-        await _authRepository.sendPasswordReset(email: event.email);
+    final result = await _authRepository.sendPasswordReset(email: event.email);
     result.fold(
       (failure) => emit(AuthFailureState(failure: failure)),
       (_) => emit(const AuthPasswordResetSent()),
@@ -124,16 +123,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     final result = await _authRepository.acceptTerms(version: event.version);
-    result.fold(
-      (failure) => emit(AuthFailureState(failure: failure)),
-      (_) {
-        final currentState = state;
-        if (currentState is AuthTermsRequired) {
-          // First sign-in: after accepting T&C, send to routing screen.
-          emit(AuthNewSession(user: currentState.user));
-        }
-      },
-    );
+    result.fold((failure) => emit(AuthFailureState(failure: failure)), (_) {
+      final currentState = state;
+      if (currentState is AuthTermsRequired) {
+        // First sign-in: after accepting T&C, send to routing screen.
+        emit(AuthNewSession(user: currentState.user));
+      }
+    });
   }
 
   @override

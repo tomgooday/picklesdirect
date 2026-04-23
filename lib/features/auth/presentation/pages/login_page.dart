@@ -49,11 +49,11 @@ class _LoginViewState extends State<_LoginView> {
   void _submit(BuildContext context) {
     if (!_formKey.currentState!.validate()) return;
     context.read<AuthBloc>().add(
-          AuthSignInRequested(
-            email: _emailController.text.trim(),
-            password: _passwordController.text,
-          ),
-        );
+      AuthSignInRequested(
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
+      ),
+    );
   }
 
   @override
@@ -146,11 +146,9 @@ class _LoginViewState extends State<_LoginView> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
-                      onPressed: () =>
-                          context.push(Routes.forgotPassword),
+                      onPressed: () => context.push(Routes.forgotPassword),
                       style: TextButton.styleFrom(
-                        foregroundColor:
-                            Theme.of(context).colorScheme.primary,
+                        foregroundColor: Theme.of(context).colorScheme.primary,
                         padding: const EdgeInsets.symmetric(
                           vertical: AppDimensions.spacingXs,
                         ),
@@ -198,8 +196,8 @@ class _LoginViewState extends State<_LoginView> {
                         // Disabled until Azure Entra client ID is configured.
                         onPressed: msalConfigured
                             ? () => context.read<AuthBloc>().add(
-                                  const AuthMsalSignInRequested(),
-                                )
+                                const AuthMsalSignInRequested(),
+                              )
                             : null,
                       );
                     },
@@ -220,8 +218,9 @@ class _LoginViewState extends State<_LoginView> {
                       TextButton(
                         onPressed: () => context.push(Routes.register),
                         style: TextButton.styleFrom(
-                          foregroundColor:
-                              Theme.of(context).colorScheme.primary,
+                          foregroundColor: Theme.of(
+                            context,
+                          ).colorScheme.primary,
                           padding: EdgeInsets.zero,
                           minimumSize: Size.zero,
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -243,8 +242,8 @@ class _LoginViewState extends State<_LoginView> {
 
   ColourTokens _colours(BuildContext context) =>
       Theme.of(context).brightness == Brightness.dark
-          ? AppColours.dark
-          : AppColours.light;
+      ? AppColours.dark
+      : AppColours.light;
 
   String? _validateEmail(String? value) {
     if (value == null || value.trim().isEmpty) {

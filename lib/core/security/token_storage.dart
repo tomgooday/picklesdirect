@@ -35,17 +35,17 @@ class TokenStorageImpl implements TokenStorage {
 
   @override
   Future<String?> getAccessToken() => _secureStorage.read(
-        key: AppConstants.storageKeyAuthToken,
-        iOptions: _iOSOptions,
-        aOptions: _androidOptions,
-      );
+    key: AppConstants.storageKeyAuthToken,
+    iOptions: _iOSOptions,
+    aOptions: _androidOptions,
+  );
 
   @override
   Future<String?> getRefreshToken() => _secureStorage.read(
-        key: AppConstants.storageKeyRefreshToken,
-        iOptions: _iOSOptions,
-        aOptions: _androidOptions,
-      );
+    key: AppConstants.storageKeyRefreshToken,
+    iOptions: _iOSOptions,
+    aOptions: _androidOptions,
+  );
 
   @override
   Future<void> saveTokens({
@@ -83,17 +83,17 @@ class TokenStorageImpl implements TokenStorage {
 
   @override
   Future<void> clearTokens() => Future.wait([
-        _secureStorage.delete(
-          key: AppConstants.storageKeyAuthToken,
-          iOptions: _iOSOptions,
-          aOptions: _androidOptions,
-        ),
-        _secureStorage.delete(
-          key: AppConstants.storageKeyRefreshToken,
-          iOptions: _iOSOptions,
-          aOptions: _androidOptions,
-        ),
-      ]);
+    _secureStorage.delete(
+      key: AppConstants.storageKeyAuthToken,
+      iOptions: _iOSOptions,
+      aOptions: _androidOptions,
+    ),
+    _secureStorage.delete(
+      key: AppConstants.storageKeyRefreshToken,
+      iOptions: _iOSOptions,
+      aOptions: _androidOptions,
+    ),
+  ]);
 }
 
 /// Minimal interface used by [TokenStorageImpl] to avoid circular DI.

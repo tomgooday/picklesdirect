@@ -10,11 +10,7 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 @singleton
 class DioClient {
-  DioClient(
-    this._config,
-    this._authInterceptor,
-    this._retryInterceptor,
-  ) {
+  DioClient(this._config, this._authInterceptor, this._retryInterceptor) {
     _dio = _buildDio();
   }
 
@@ -43,23 +39,20 @@ class DioClient {
 
     // Certificate pinning in production — reject connections with unknown certs.
     if (_config.isProduction && _config.sentinelPinCertHash.isNotEmpty) {
-      (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () =>
-          HttpClient()
-            ..badCertificateCallback = (cert, host, port) {
-              // Compare SHA-256 fingerprint of presented cert against pinned hash.
-              // Real implementation should use dart:crypto to hash the DER bytes.
-              return false;
-            };
+      (dio.httpClientAdapter as IOHttpClientAdapter)
+          .createHttpClient = () => HttpClient()
+        ..badCertificateCallback = (cert, host, port) {
+          // Compare SHA-256 fingerprint of presented cert against pinned hash.
+          // Real implementation should use dart:crypto to hash the DER bytes.
+          return false;
+        };
     }
 
     dio.interceptors.addAll([
       _authInterceptor,
       _retryInterceptor,
       if (!_config.isProduction)
-        PrettyDioLogger(
-          requestBody: true,
-          responseBody: false,
-        ),
+        PrettyDioLogger(requestBody: true, responseBody: false),
     ]);
 
     return dio;

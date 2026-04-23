@@ -13,15 +13,15 @@ class DashboardRepositoryImpl implements DashboardRepository {
 
   @override
   Stream<List<SubmissionSummary>> watchAllItems() {
-    final draftsStream = (_db.select(_db.submissionDrafts)
-          ..orderBy([(t) => OrderingTerm.desc(t.updatedAt)]))
-        .watch();
+    final draftsStream = (_db.select(
+      _db.submissionDrafts,
+    )..orderBy([(t) => OrderingTerm.desc(t.updatedAt)])).watch();
 
     final syncQueueStream = _db.select(_db.syncQueue).watch();
 
-    final submittedStream = (_db.select(_db.submittedAssets)
-          ..orderBy([(t) => OrderingTerm.desc(t.lastUpdatedAt)]))
-        .watch();
+    final submittedStream = (_db.select(
+      _db.submittedAssets,
+    )..orderBy([(t) => OrderingTerm.desc(t.lastUpdatedAt)])).watch();
 
     return Rx.combineLatest3(
       draftsStream,
@@ -31,8 +31,7 @@ class DashboardRepositoryImpl implements DashboardRepository {
         List<SubmissionDraft> drafts,
         List<SyncQueueData> syncEntries,
         List<SubmittedAsset> submittedAssets,
-      ) =>
-          _buildSummaries(
+      ) => _buildSummaries(
         drafts: drafts,
         syncEntries: syncEntries,
         submittedAssets: submittedAssets,

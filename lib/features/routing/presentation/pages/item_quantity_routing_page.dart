@@ -81,7 +81,10 @@ class ItemQuantityRoutingPage extends StatelessWidget {
               // ── Help link ─────────────────────────────────────────────────
               TextButton.icon(
                 onPressed: () => context.push(Routes.help),
-                icon: const Icon(Icons.help_outline, size: AppDimensions.iconSizeSm),
+                icon: const Icon(
+                  Icons.help_outline,
+                  size: AppDimensions.iconSizeSm,
+                ),
                 label: const Text('Need help? Contact Pickles'),
                 style: TextButton.styleFrom(
                   foregroundColor: colours.onSurfaceVariant,
@@ -166,10 +169,7 @@ class _RoutingOptionCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: AppDimensions.spacingSm),
-              Icon(
-                Icons.chevron_right,
-                color: colours.onSurfaceVariant,
-              ),
+              Icon(Icons.chevron_right, color: colours.onSurfaceVariant),
             ],
           ),
         ),

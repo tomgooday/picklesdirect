@@ -39,119 +39,118 @@ class AppRouter {
   );
 
   List<RouteBase> _buildRoutes() => [
-        // ── Unauthenticated ────────────────────────────────────────────────
+    // ── Unauthenticated ────────────────────────────────────────────────
+    GoRoute(
+      path: Routes.splash,
+      name: 'splash',
+      builder: (_, __) => const SplashPage(),
+    ),
+    GoRoute(
+      path: Routes.onboarding,
+      name: 'onboarding',
+      builder: (_, __) => const OnboardingPage(),
+    ),
+    GoRoute(
+      path: Routes.login,
+      name: 'login',
+      builder: (_, __) => const LoginPage(),
+    ),
+    GoRoute(
+      path: Routes.register,
+      name: 'register',
+      builder: (_, __) => const RegisterPage(),
+    ),
+    GoRoute(
+      path: Routes.forgotPassword,
+      name: 'forgotPassword',
+      builder: (_, __) => const ForgotPasswordPage(),
+    ),
+    GoRoute(
+      path: Routes.termsAcceptance,
+      name: 'termsAcceptance',
+      builder: (_, __) => const TermsAcceptancePage(),
+    ),
+
+    // ── Post-login routing (Step 1a) ───────────────────────────────────
+    GoRoute(
+      path: Routes.itemQuantityRouting,
+      name: 'itemQuantityRouting',
+      builder: (_, __) => const ItemQuantityRoutingPage(),
+    ),
+
+    // ── Bulk Lead Capture (2+ items path) ──────────────────────────────
+    GoRoute(
+      path: Routes.bulkLead,
+      name: 'bulkLead',
+      builder: (_, __) => const BulkLeadPage(),
+    ),
+    GoRoute(
+      path: Routes.bulkLeadConfirmation,
+      name: 'bulkLeadConfirmation',
+      builder: (_, __) => const BulkLeadConfirmationPage(),
+    ),
+
+    // ── Authenticated shell ────────────────────────────────────────────
+    ShellRoute(
+      builder: (context, state, child) => _MainShell(child: child),
+      routes: [
         GoRoute(
-          path: Routes.splash,
-          name: 'splash',
-          builder: (_, __) => const SplashPage(),
-        ),
-        GoRoute(
-          path: Routes.onboarding,
-          name: 'onboarding',
-          builder: (_, __) => const OnboardingPage(),
-        ),
-        GoRoute(
-          path: Routes.login,
-          name: 'login',
-          builder: (_, __) => const LoginPage(),
-        ),
-        GoRoute(
-          path: Routes.register,
-          name: 'register',
-          builder: (_, __) => const RegisterPage(),
-        ),
-        GoRoute(
-          path: Routes.forgotPassword,
-          name: 'forgotPassword',
-          builder: (_, __) => const ForgotPasswordPage(),
-        ),
-        GoRoute(
-          path: Routes.termsAcceptance,
-          name: 'termsAcceptance',
-          builder: (_, __) => const TermsAcceptancePage(),
+          path: Routes.dashboard,
+          name: 'dashboard',
+          builder: (_, __) => const DashboardPage(),
         ),
 
-        // ── Post-login routing (Step 1a) ───────────────────────────────────
+        // ── Single-item Long Form ────────────────────────────────────
         GoRoute(
-          path: Routes.itemQuantityRouting,
-          name: 'itemQuantityRouting',
-          builder: (_, __) => const ItemQuantityRoutingPage(),
-        ),
-
-        // ── Bulk Lead Capture (2+ items path) ──────────────────────────────
-        GoRoute(
-          path: Routes.bulkLead,
-          name: 'bulkLead',
-          builder: (_, __) => const BulkLeadPage(),
+          path: Routes.assetCategory,
+          name: 'assetCategory',
+          builder: (_, __) => const AssetCategoryPage(),
         ),
         GoRoute(
-          path: Routes.bulkLeadConfirmation,
-          name: 'bulkLeadConfirmation',
-          builder: (_, __) => const BulkLeadConfirmationPage(),
+          path: '${Routes.assetForm}/:categoryKey',
+          name: 'assetForm',
+          builder: (_, state) => AssetFormPage(
+            categoryKey: state.pathParameters['categoryKey']!,
+            draftId: state.uri.queryParameters['draftId'],
+          ),
+        ),
+        GoRoute(
+          path: '${Routes.photoCapture}/:draftId',
+          name: 'photoCapture',
+          builder: (_, state) =>
+              PhotoCapturePage(draftId: state.pathParameters['draftId']!),
         ),
 
-        // ── Authenticated shell ────────────────────────────────────────────
-        ShellRoute(
-          builder: (context, state, child) => _MainShell(child: child),
-          routes: [
-            GoRoute(
-              path: Routes.dashboard,
-              name: 'dashboard',
-              builder: (_, __) => const DashboardPage(),
-            ),
-
-            // ── Single-item Long Form ────────────────────────────────────
-            GoRoute(
-              path: Routes.assetCategory,
-              name: 'assetCategory',
-              builder: (_, __) => const AssetCategoryPage(),
-            ),
-            GoRoute(
-              path: '${Routes.assetForm}/:categoryKey',
-              name: 'assetForm',
-              builder: (_, state) => AssetFormPage(
-                categoryKey: state.pathParameters['categoryKey']!,
-                draftId: state.uri.queryParameters['draftId'],
-              ),
-            ),
-            GoRoute(
-              path: '${Routes.photoCapture}/:draftId',
-              name: 'photoCapture',
-              builder: (_, state) => PhotoCapturePage(
-                draftId: state.pathParameters['draftId']!,
-              ),
-            ),
-
-            // ── Submission & valuation ───────────────────────────────────
-            GoRoute(
-              path: '${Routes.submissionDetail}/:submissionId',
-              name: 'submissionDetail',
-              builder: (_, state) => SubmissionDetailPage(
-                submissionId: state.pathParameters['submissionId']!,
-              ),
-            ),
-            GoRoute(
-              path: '${Routes.valuationResponse}/:submissionId',
-              name: 'valuationResponse',
-              builder: (_, state) => ValuationResponsePage(
-                submissionId: state.pathParameters['submissionId']!,
-              ),
-            ),
-
-            // ── Account ──────────────────────────────────────────────────
-            GoRoute(
-              path: Routes.profile,
-              name: 'profile',
-              builder: (_, __) => const ProfilePage(),
-            ),
-            GoRoute(
-              path: Routes.help,
-              name: 'help',
-              builder: (_, __) => const HelpPage(),
-            ),
-          ],
+        // ── Submission & valuation ───────────────────────────────────
+        GoRoute(
+          path: '${Routes.submissionDetail}/:submissionId',
+          name: 'submissionDetail',
+          builder: (_, state) => SubmissionDetailPage(
+            submissionId: state.pathParameters['submissionId']!,
+          ),
         ),
-      ];
+        GoRoute(
+          path: '${Routes.valuationResponse}/:submissionId',
+          name: 'valuationResponse',
+          builder: (_, state) => ValuationResponsePage(
+            submissionId: state.pathParameters['submissionId']!,
+          ),
+        ),
+
+        // ── Account ──────────────────────────────────────────────────
+        GoRoute(
+          path: Routes.profile,
+          name: 'profile',
+          builder: (_, __) => const ProfilePage(),
+        ),
+        GoRoute(
+          path: Routes.help,
+          name: 'help',
+          builder: (_, __) => const HelpPage(),
+        ),
+      ],
+    ),
+  ];
 }
 
 class _MainShell extends StatelessWidget {

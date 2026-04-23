@@ -25,16 +25,15 @@ class SyncStatusBanner extends StatelessWidget {
     return AnimatedSize(
       duration: const Duration(milliseconds: 250),
       curve: Curves.easeInOut,
-      child: _isVisible ? _BannerContent(syncStatus: syncStatus, onRetry: onRetry) : const SizedBox.shrink(),
+      child: _isVisible
+          ? _BannerContent(syncStatus: syncStatus, onRetry: onRetry)
+          : const SizedBox.shrink(),
     );
   }
 }
 
 class _BannerContent extends StatelessWidget {
-  const _BannerContent({
-    required this.syncStatus,
-    required this.onRetry,
-  });
+  const _BannerContent({required this.syncStatus, required this.onRetry});
 
   final SyncStatus syncStatus;
   final VoidCallback onRetry;
@@ -61,7 +60,11 @@ class _BannerContent extends StatelessWidget {
         child: Row(
           children: [
             if (isFailed)
-              Icon(Icons.sync_problem, size: AppDimensions.iconSizeSm, color: foregroundColour)
+              Icon(
+                Icons.sync_problem,
+                size: AppDimensions.iconSizeSm,
+                color: foregroundColour,
+              )
             else
               SizedBox.square(
                 dimension: AppDimensions.iconSizeSm,

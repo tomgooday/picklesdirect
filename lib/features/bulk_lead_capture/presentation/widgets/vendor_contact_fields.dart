@@ -26,12 +26,12 @@ class _VendorContactFieldsState extends State<VendorContactFields> {
 
   void _dispatch(BuildContext context) {
     context.read<BulkLeadBloc>().add(
-          BulkLeadVendorDetailsChanged(
-            vendorName: _nameController.text,
-            phone: _phoneController.text,
-            email: _emailController.text,
-          ),
-        );
+      BulkLeadVendorDetailsChanged(
+        vendorName: _nameController.text,
+        phone: _phoneController.text,
+        email: _emailController.text,
+      ),
+    );
   }
 
   @override

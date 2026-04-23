@@ -14,7 +14,9 @@ void main() {
 
   setUp(() {
     mockRepo = MockAuthRepository();
-    when(() => mockRepo.authStateChanges).thenAnswer((_) => const Stream.empty());
+    when(
+      () => mockRepo.authStateChanges,
+    ).thenAnswer((_) => const Stream.empty());
     bloc = AuthBloc(mockRepo);
   });
 
@@ -29,18 +31,15 @@ void main() {
           return bloc;
         },
         act: (b) => b.add(const AuthCheckRequested()),
-        expect: () => [
-          const AuthLoading(),
-          const AuthUnauthenticated(),
-        ],
+        expect: () => [const AuthLoading(), const AuthUnauthenticated()],
       );
 
       blocTest<AuthBloc, AuthState>(
         'emits [AuthLoading, AuthAuthenticated] when active user is cached',
         build: () {
-          when(() => mockRepo.getCurrentUser()).thenAnswer(
-            (_) async => _testUser,
-          );
+          when(
+            () => mockRepo.getCurrentUser(),
+          ).thenAnswer((_) async => _testUser);
           return bloc;
         },
         act: (b) => b.add(const AuthCheckRequested()),

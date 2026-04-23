@@ -167,10 +167,7 @@ class SubmissionCard extends StatelessWidget {
 // ── Category Icon ─────────────────────────────────────────────────────────────
 
 class _CategoryIcon extends StatelessWidget {
-  const _CategoryIcon({
-    required this.category,
-    required this.colours,
-  });
+  const _CategoryIcon({required this.category, required this.colours});
 
   final String category;
   final ColourTokens colours;
@@ -193,24 +190,21 @@ class _CategoryIcon extends StatelessWidget {
   }
 
   IconData _iconForCategory(String key) => switch (key.toLowerCase()) {
-        'vehicles' || 'vehicle' => Icons.directions_car_outlined,
-        'trucks' || 'truck' => Icons.local_shipping_outlined,
-        'trailers' || 'trailer' => Icons.rv_hookup_outlined,
-        'industrial' || 'machinery' => Icons.precision_manufacturing_outlined,
-        'earthmoving' => Icons.construction_outlined,
-        'agricultural' || 'farm' => Icons.agriculture_outlined,
-        'marine' || 'boats' => Icons.directions_boat_outlined,
-        _ => Icons.inventory_2_outlined,
-      };
+    'vehicles' || 'vehicle' => Icons.directions_car_outlined,
+    'trucks' || 'truck' => Icons.local_shipping_outlined,
+    'trailers' || 'trailer' => Icons.rv_hookup_outlined,
+    'industrial' || 'machinery' => Icons.precision_manufacturing_outlined,
+    'earthmoving' => Icons.construction_outlined,
+    'agricultural' || 'farm' => Icons.agriculture_outlined,
+    'marine' || 'boats' => Icons.directions_boat_outlined,
+    _ => Icons.inventory_2_outlined,
+  };
 }
 
 // ── Status Chip ───────────────────────────────────────────────────────────────
 
 class _StatusChip extends StatelessWidget {
-  const _StatusChip({
-    required this.status,
-    required this.colours,
-  });
+  const _StatusChip({required this.status, required this.colours});
 
   final SubmissionStatus status;
   final ColourTokens colours;
@@ -251,30 +245,26 @@ class _StatusChip extends StatelessWidget {
     );
   }
 
-  (Color, Color) _colours(SubmissionStatus status, ColourTokens colours) =>
-      switch (status) {
-        SubmissionStatus.draft => (colours.statusDraft, colours.statusDraft),
-        SubmissionStatus.queued => (colours.statusQueued, colours.statusQueued),
-        SubmissionStatus.syncing => (
-          colours.statusSyncing,
-          colours.statusSyncing
-        ),
-        SubmissionStatus.syncFailed => (
-          colours.scheme.error,
-          colours.scheme.error
-        ),
-        SubmissionStatus.submitted => (
-          colours.statusSubmitted,
-          colours.statusSubmitted
-        ),
-        SubmissionStatus.valuationPending => (
-          colours.statusValuationPending,
-          colours.statusValuationPending
-        ),
-        SubmissionStatus.accepted => (
-          colours.statusAccepted,
-          colours.statusAccepted
-        ),
-        SubmissionStatus.listed => (colours.statusListed, colours.statusListed),
-      };
+  (Color, Color) _colours(
+    SubmissionStatus status,
+    ColourTokens colours,
+  ) => switch (status) {
+    SubmissionStatus.draft => (colours.statusDraft, colours.statusDraft),
+    SubmissionStatus.queued => (colours.statusQueued, colours.statusQueued),
+    SubmissionStatus.syncing => (colours.statusSyncing, colours.statusSyncing),
+    SubmissionStatus.syncFailed => (colours.scheme.error, colours.scheme.error),
+    SubmissionStatus.submitted => (
+      colours.statusSubmitted,
+      colours.statusSubmitted,
+    ),
+    SubmissionStatus.valuationPending => (
+      colours.statusValuationPending,
+      colours.statusValuationPending,
+    ),
+    SubmissionStatus.accepted => (
+      colours.statusAccepted,
+      colours.statusAccepted,
+    ),
+    SubmissionStatus.listed => (colours.statusListed, colours.statusListed),
+  };
 }

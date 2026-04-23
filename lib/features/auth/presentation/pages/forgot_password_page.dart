@@ -39,10 +39,8 @@ class _ForgotPasswordViewState extends State<_ForgotPasswordView> {
   void _submit(BuildContext context) {
     if (!_formKey.currentState!.validate()) return;
     context.read<AuthBloc>().add(
-          AuthForgotPasswordRequested(
-            email: _emailController.text.trim(),
-          ),
-        );
+      AuthForgotPasswordRequested(email: _emailController.text.trim()),
+    );
   }
 
   @override
@@ -79,12 +77,14 @@ class _ForgotPasswordViewState extends State<_ForgotPasswordView> {
             padding: const EdgeInsets.symmetric(
               horizontal: AppDimensions.spacingLg,
             ),
-            child: _submitted ? _SuccessView(email: _emailController.text.trim()) : _FormView(
-              formKey: _formKey,
-              emailController: _emailController,
-              colours: colours,
-              onSubmit: () => _submit(context),
-            ),
+            child: _submitted
+                ? _SuccessView(email: _emailController.text.trim())
+                : _FormView(
+                    formKey: _formKey,
+                    emailController: _emailController,
+                    colours: colours,
+                    onSubmit: () => _submit(context),
+                  ),
           ),
         ),
       ),
