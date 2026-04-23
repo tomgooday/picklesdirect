@@ -29,15 +29,12 @@ jobs:
 
       - name: Install dependencies
         run: flutter pub get
-        working-directory: pickles_direct
 
       - name: Check formatting
         run: dart format --set-exit-if-changed .
-        working-directory: pickles_direct
 
       - name: Analyse
         run: flutter analyze --fatal-infos
-        working-directory: pickles_direct
 
   # ── Unit & Widget Tests ─────────────────────────────────────────────────────
   test:
@@ -55,16 +52,14 @@ jobs:
 
       - name: Install dependencies
         run: flutter pub get
-        working-directory: pickles_direct
 
       - name: Run tests with coverage
         run: flutter test --coverage --coverage-path=coverage/lcov.info
-        working-directory: pickles_direct
 
       - name: Check coverage threshold (80%)
         uses: VeryGoodOpenSource/very_good_coverage@v3
         with:
-          path: pickles_direct/coverage/lcov.info
+          path: coverage/lcov.info
           min_coverage: 80
           exclude: |
             **/*.g.dart
@@ -78,14 +73,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          projectBaseDir: pickles_direct
 
       - name: Upload coverage artifact
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: pickles_direct/coverage/lcov.info
+          path: coverage/lcov.info
 
   # ── SAST ─────────────────────────────────────────────────────────────────────
   sast:
@@ -109,7 +102,6 @@ jobs:
           cache: true
 
       - run: flutter pub get
-        working-directory: pickles_direct
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
@@ -135,7 +127,6 @@ jobs:
           cache: true
 
       - run: flutter pub get
-        working-directory: pickles_direct
 
       - name: Build Android AAB
         run: |
@@ -144,13 +135,12 @@ jobs:
             --dart-define=MIDDLEWARE_BASE_URL=${{ secrets.MIDDLEWARE_BASE_URL_STAGING }} \
             --dart-define=AZURE_CLIENT_ID=${{ secrets.AZURE_CLIENT_ID }} \
             --dart-define=AZURE_TENANT_ID=${{ secrets.AZURE_TENANT_ID }}
-        working-directory: pickles_direct
 
       - name: Upload AAB artifact
         uses: actions/upload-artifact@v4
         with:
           name: android-aab
-          path: pickles_direct/build/app/outputs/bundle/release/*.aab
+          path: build/app/outputs/bundle/release/*.aab
           retention-days: 14
 
   # ── iOS Build ─────────────────────────────────────────────────────────────────
@@ -168,11 +158,9 @@ jobs:
           cache: true
 
       - run: flutter pub get
-        working-directory: pickles_direct
 
       - name: Build iOS (no-codesign)
         run: flutter build ios --no-codesign --release
-        working-directory: pickles_direct
 
   # ── Web / PWA Build ──────────────────────────────────────────────────────────
   build-web:
@@ -189,17 +177,15 @@ jobs:
           cache: true
 
       - run: flutter pub get
-        working-directory: pickles_direct
 
       - name: Build web
         run: flutter build web --pwa-strategy=offline-first --release
-        working-directory: pickles_direct
 
       - name: Upload web artifact
         uses: actions/upload-artifact@v4
         with:
           name: web-build
-          path: pickles_direct/build/web
+          path: build/web
           retention-days: 14
 
   # ── Vercel Deployment (Web / PWA) ────────────────────────────────────────────
@@ -218,17 +204,14 @@ jobs:
           cache: true
 
       - run: flutter pub get
-        working-directory: pickles_direct
 
       - name: Build web
         run: flutter build web --pwa-strategy=offline-first --release
-        working-directory: pickles_direct
 
       - name: Install Vercel CLI
         run: npm install -g vercel@latest
 
       - name: Deploy to Vercel (preview on develop, production on main)
-        working-directory: pickles_direct
         run: |
           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
             vercel --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
@@ -255,7 +238,6 @@ jobs:
           cache: true
 
       - run: flutter pub get
-        working-directory: pickles_direct
 
       - name: Generate CycloneDX SBOM
         run: |
@@ -263,10 +245,9 @@ jobs:
           dart pub global run cyclonedx_dart:main \
             --output pickles_direct_sbom.json \
             --format json
-        working-directory: pickles_direct
 
       - name: Upload SBOM
         uses: actions/upload-artifact@v4
         with:
           name: sbom-cyclonedx
-          path: pickles_direct/pickles_direct_sbom.json
+          path: pickles_direct_sbom.json
