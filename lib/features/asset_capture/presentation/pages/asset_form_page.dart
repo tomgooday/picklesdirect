@@ -13,11 +13,7 @@ import 'package:pickles_direct/features/asset_capture/presentation/widgets/schem
 /// dispatches [AssetCaptureStarted] which loads the schema and optionally
 /// restores an existing [draftId].
 class AssetFormPage extends StatelessWidget {
-  const AssetFormPage({
-    required this.categoryKey,
-    super.key,
-    this.draftId,
-  });
+  const AssetFormPage({required this.categoryKey, super.key, this.draftId});
 
   final String categoryKey;
   final String? draftId;
@@ -26,9 +22,7 @@ class AssetFormPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => getIt<AssetCaptureBloc>()
-        ..add(
-          AssetCaptureStarted(categoryKey: categoryKey, draftId: draftId),
-        ),
+        ..add(AssetCaptureStarted(categoryKey: categoryKey, draftId: draftId)),
       child: _AssetFormView(categoryKey: categoryKey),
     );
   }
@@ -45,9 +39,7 @@ class _AssetFormView extends StatelessWidget {
       // Auto-save when the user navigates back.
       onPopInvokedWithResult: (didPop, _) {
         if (didPop) {
-          context
-              .read<AssetCaptureBloc>()
-              .add(const AssetDraftSaveRequested());
+          context.read<AssetCaptureBloc>().add(const AssetDraftSaveRequested());
         }
       },
       child: BlocConsumer<AssetCaptureBloc, AssetCaptureState>(
@@ -88,12 +80,11 @@ class _AssetFormView extends StatelessWidget {
               actions: [_SaveIndicator(saveStatus: state.saveStatus)],
             ),
             body: switch (state.status) {
-              AssetCaptureStatus.loading ||
-              AssetCaptureStatus.initial =>
+              AssetCaptureStatus.loading || AssetCaptureStatus.initial =>
                 const Center(child: CircularProgressIndicator()),
               AssetCaptureStatus.error => _ErrorBody(
-                  message: state.failure?.message ?? 'Something went wrong',
-                ),
+                message: state.failure?.message ?? 'Something went wrong',
+              ),
               AssetCaptureStatus.loaded => _FormBody(categoryKey: categoryKey),
             },
           );
@@ -140,7 +131,8 @@ class _FormBody extends StatelessWidget {
 
               // ── Schema-driven fields ──────────────────────────────
               ...category.fields.map(
-                (field) => SchemaFieldWidget(key: ValueKey(field.key), schema: field),
+                (field) =>
+                    SchemaFieldWidget(key: ValueKey(field.key), schema: field),
               ),
 
               const SizedBox(height: AppDimensions.spacingMd),
@@ -167,7 +159,9 @@ class _FormBody extends StatelessWidget {
                           AppDimensions.radiusSm,
                         ),
                         border: Border.all(
-                          color: Theme.of(context).colorScheme.error.withAlpha(100),
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.error.withAlpha(100),
                         ),
                       ),
                       child: Text(
@@ -185,9 +179,9 @@ class _FormBody extends StatelessWidget {
 
               // ── Save draft ────────────────────────────────────────
               OutlinedButton(
-                onPressed: () => context
-                    .read<AssetCaptureBloc>()
-                    .add(const AssetDraftSaveRequested()),
+                onPressed: () => context.read<AssetCaptureBloc>().add(
+                  const AssetDraftSaveRequested(),
+                ),
                 child: const Text('Save Draft'),
               ),
 
@@ -203,9 +197,9 @@ class _FormBody extends StatelessWidget {
                   return ElevatedButton(
                     onPressed: isSubmitting
                         ? null
-                        : () => context
-                            .read<AssetCaptureBloc>()
-                            .add(const AssetFormSubmitRequested()),
+                        : () => context.read<AssetCaptureBloc>().add(
+                            const AssetFormSubmitRequested(),
+                          ),
                     child: isSubmitting
                         ? const SizedBox.square(
                             dimension: 20,

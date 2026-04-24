@@ -59,9 +59,8 @@ class AssetCategoryPage extends StatelessWidget {
                 final category = categories[index];
                 return CategoryCard(
                   category: category,
-                  onTap: () => context.push(
-                    '${Routes.assetForm}/${category.key}',
-                  ),
+                  onTap: () =>
+                      context.push('${Routes.assetForm}/${category.key}'),
                 );
               },
             ),

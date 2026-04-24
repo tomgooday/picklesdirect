@@ -22,9 +22,8 @@ final class AssetCaptureState extends Equatable {
     this.failure,
   });
 
-  factory AssetCaptureState.initial() => const AssetCaptureState(
-    status: AssetCaptureStatus.initial,
-  );
+  factory AssetCaptureState.initial() =>
+      const AssetCaptureState(status: AssetCaptureStatus.initial);
 
   final AssetCaptureStatus status;
   final AssetCategory? category;

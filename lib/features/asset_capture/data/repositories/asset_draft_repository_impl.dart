@@ -24,22 +24,24 @@ class AssetDraftRepositoryImpl implements AssetDraftRepository {
       final payload = jsonEncode(draft.fieldValues);
       final encrypted = await _encryption.encrypt(payload);
 
-      await _db.into(_db.submissionDrafts).insertOnConflictUpdate(
-        SubmissionDraftsCompanion(
-          id: Value(draft.id),
-          vendorId: Value(draft.vendorId),
-          status: Value(draft.status.name),
-          assetPayloadEncrypted: Value(encrypted),
-          assetCategory: Value(draft.categoryKey),
-          assetLabel: Value(draft.assetLabel),
-          gpsLat: Value(draft.gpsLat),
-          gpsLng: Value(draft.gpsLng),
-          photoCount: Value(draft.photoCount),
-          retryCount: const Value(0),
-          createdAt: Value(draft.createdAt),
-          updatedAt: Value(draft.updatedAt),
-        ),
-      );
+      await _db
+          .into(_db.submissionDrafts)
+          .insertOnConflictUpdate(
+            SubmissionDraftsCompanion(
+              id: Value(draft.id),
+              vendorId: Value(draft.vendorId),
+              status: Value(draft.status.name),
+              assetPayloadEncrypted: Value(encrypted),
+              assetCategory: Value(draft.categoryKey),
+              assetLabel: Value(draft.assetLabel),
+              gpsLat: Value(draft.gpsLat),
+              gpsLng: Value(draft.gpsLng),
+              photoCount: Value(draft.photoCount),
+              retryCount: const Value(0),
+              createdAt: Value(draft.createdAt),
+              updatedAt: Value(draft.updatedAt),
+            ),
+          );
       return const Right(unit);
     } on Exception catch (e) {
       _log.e('saveDraft failed', error: e);
@@ -50,9 +52,9 @@ class AssetDraftRepositoryImpl implements AssetDraftRepository {
   @override
   Future<Either<Failure, AssetDraft?>> loadDraft(String draftId) async {
     try {
-      final row = await (_db.select(_db.submissionDrafts)
-            ..where((t) => t.id.equals(draftId)))
-          .getSingleOrNull();
+      final row = await (_db.select(
+        _db.submissionDrafts,
+      )..where((t) => t.id.equals(draftId))).getSingleOrNull();
 
       if (row == null) return const Right(null);
       return Right(await _rowToDraft(row));
@@ -65,10 +67,11 @@ class AssetDraftRepositoryImpl implements AssetDraftRepository {
   @override
   Future<Either<Failure, List<AssetDraft>>> listDrafts(String vendorId) async {
     try {
-      final rows = await (_db.select(_db.submissionDrafts)
-            ..where((t) => t.vendorId.equals(vendorId))
-            ..orderBy([(t) => OrderingTerm.desc(t.updatedAt)]))
-          .get();
+      final rows =
+          await (_db.select(_db.submissionDrafts)
+                ..where((t) => t.vendorId.equals(vendorId))
+                ..orderBy([(t) => OrderingTerm.desc(t.updatedAt)]))
+              .get();
 
       final drafts = await Future.wait(rows.map(_rowToDraft));
       return Right(drafts);
@@ -81,9 +84,9 @@ class AssetDraftRepositoryImpl implements AssetDraftRepository {
   @override
   Future<Either<Failure, Unit>> deleteDraft(String draftId) async {
     try {
-      await (_db.delete(_db.submissionDrafts)
-            ..where((t) => t.id.equals(draftId)))
-          .go();
+      await (_db.delete(
+        _db.submissionDrafts,
+      )..where((t) => t.id.equals(draftId))).go();
       return const Right(unit);
     } on Exception catch (e) {
       _log.e('deleteDraft failed', error: e);

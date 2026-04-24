@@ -51,7 +51,9 @@ class _VinScannerSheetState extends State<VinScannerSheet> {
         children: [
           // ── Handle ──────────────────────────────────────────────────
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: AppDimensions.spacingSm),
+            padding: const EdgeInsets.symmetric(
+              vertical: AppDimensions.spacingSm,
+            ),
             child: Container(
               width: 40,
               height: 4,
@@ -106,10 +108,7 @@ class _VinScannerSheetState extends State<VinScannerSheet> {
               ),
               child: Stack(
                 children: [
-                  MobileScanner(
-                    controller: _controller,
-                    onDetect: _onDetect,
-                  ),
+                  MobileScanner(controller: _controller, onDetect: _onDetect),
                   // Targeting overlay
                   Center(
                     child: Container(

@@ -4,11 +4,7 @@ import 'package:pickles_direct/features/asset_capture/domain/entities/asset_cate
 
 /// Tappable card shown in the AssetCategoryPage grid.
 class CategoryCard extends StatelessWidget {
-  const CategoryCard({
-    required this.category,
-    required this.onTap,
-    super.key,
-  });
+  const CategoryCard({required this.category, required this.onTap, super.key});
 
   final AssetCategory category;
   final VoidCallback onTap;

@@ -86,8 +86,18 @@ abstract final class AssetSchemaService {
           'Other',
         ],
       ),
-      const AssetFieldSchema(key: 'make', label: 'Make', type: AssetFieldType.text, hint: 'e.g. Caterpillar, Komatsu, Hitachi'),
-      const AssetFieldSchema(key: 'model', label: 'Model', type: AssetFieldType.text, hint: 'e.g. 320, PC200, ZX200'),
+      const AssetFieldSchema(
+        key: 'make',
+        label: 'Make',
+        type: AssetFieldType.text,
+        hint: 'e.g. Caterpillar, Komatsu, Hitachi',
+      ),
+      const AssetFieldSchema(
+        key: 'model',
+        label: 'Model',
+        type: AssetFieldType.text,
+        hint: 'e.g. 320, PC200, ZX200',
+      ),
       AssetFieldSchema(
         key: 'year',
         label: 'Year of Manufacture',
@@ -148,8 +158,17 @@ abstract final class AssetSchemaService {
           'Other',
         ],
       ),
-      const AssetFieldSchema(key: 'make', label: 'Make', type: AssetFieldType.text, hint: 'e.g. Kenworth, Mack, Volvo, Isuzu'),
-      const AssetFieldSchema(key: 'model', label: 'Model', type: AssetFieldType.text),
+      const AssetFieldSchema(
+        key: 'make',
+        label: 'Make',
+        type: AssetFieldType.text,
+        hint: 'e.g. Kenworth, Mack, Volvo, Isuzu',
+      ),
+      const AssetFieldSchema(
+        key: 'model',
+        label: 'Model',
+        type: AssetFieldType.text,
+      ),
       AssetFieldSchema(
         key: 'year',
         label: 'Year of Manufacture',
@@ -229,8 +248,17 @@ abstract final class AssetSchemaService {
           'Other',
         ],
       ),
-      const AssetFieldSchema(key: 'make', label: 'Make', type: AssetFieldType.text, hint: 'e.g. John Deere, New Holland, Case IH'),
-      const AssetFieldSchema(key: 'model', label: 'Model', type: AssetFieldType.text),
+      const AssetFieldSchema(
+        key: 'make',
+        label: 'Make',
+        type: AssetFieldType.text,
+        hint: 'e.g. John Deere, New Holland, Case IH',
+      ),
+      const AssetFieldSchema(
+        key: 'model',
+        label: 'Model',
+        type: AssetFieldType.text,
+      ),
       AssetFieldSchema(
         key: 'year',
         label: 'Year of Manufacture',
@@ -296,8 +324,17 @@ abstract final class AssetSchemaService {
           'Other',
         ],
       ),
-      const AssetFieldSchema(key: 'make', label: 'Make', type: AssetFieldType.text, hint: 'e.g. Toyota, Crown, Linde, Yale'),
-      const AssetFieldSchema(key: 'model', label: 'Model', type: AssetFieldType.text),
+      const AssetFieldSchema(
+        key: 'make',
+        label: 'Make',
+        type: AssetFieldType.text,
+        hint: 'e.g. Toyota, Crown, Linde, Yale',
+      ),
+      const AssetFieldSchema(
+        key: 'model',
+        label: 'Model',
+        type: AssetFieldType.text,
+      ),
       AssetFieldSchema(
         key: 'year',
         label: 'Year of Manufacture',
@@ -374,8 +411,17 @@ abstract final class AssetSchemaService {
           'Other',
         ],
       ),
-      const AssetFieldSchema(key: 'make', label: 'Make', type: AssetFieldType.text, hint: 'e.g. Liebherr, Tadano, Manitowoc'),
-      const AssetFieldSchema(key: 'model', label: 'Model', type: AssetFieldType.text),
+      const AssetFieldSchema(
+        key: 'make',
+        label: 'Make',
+        type: AssetFieldType.text,
+        hint: 'e.g. Liebherr, Tadano, Manitowoc',
+      ),
+      const AssetFieldSchema(
+        key: 'model',
+        label: 'Model',
+        type: AssetFieldType.text,
+      ),
       AssetFieldSchema(
         key: 'year',
         label: 'Year of Manufacture',
@@ -444,8 +490,17 @@ abstract final class AssetSchemaService {
           'Other',
         ],
       ),
-      const AssetFieldSchema(key: 'make', label: 'Make', type: AssetFieldType.text, hint: 'e.g. Toyota, Ford, Holden'),
-      const AssetFieldSchema(key: 'model', label: 'Model', type: AssetFieldType.text),
+      const AssetFieldSchema(
+        key: 'make',
+        label: 'Make',
+        type: AssetFieldType.text,
+        hint: 'e.g. Toyota, Ford, Holden',
+      ),
+      const AssetFieldSchema(
+        key: 'model',
+        label: 'Model',
+        type: AssetFieldType.text,
+      ),
       AssetFieldSchema(
         key: 'year',
         label: 'Year',
@@ -464,7 +519,14 @@ abstract final class AssetSchemaService {
         key: 'fuel_type',
         label: 'Fuel Type',
         type: AssetFieldType.dropdown,
-        options: ['Petrol', 'Diesel', 'Hybrid', 'Electric', 'LPG / CNG', 'Other'],
+        options: [
+          'Petrol',
+          'Diesel',
+          'Hybrid',
+          'Electric',
+          'LPG / CNG',
+          'Other',
+        ],
       ),
       const AssetFieldSchema(
         key: 'transmission',
@@ -525,8 +587,17 @@ abstract final class AssetSchemaService {
           'Other',
         ],
       ),
-      const AssetFieldSchema(key: 'make', label: 'Make', type: AssetFieldType.text, hint: 'e.g. Quintrex, Stacer, Seafarer'),
-      const AssetFieldSchema(key: 'model', label: 'Model', type: AssetFieldType.text),
+      const AssetFieldSchema(
+        key: 'make',
+        label: 'Make',
+        type: AssetFieldType.text,
+        hint: 'e.g. Quintrex, Stacer, Seafarer',
+      ),
+      const AssetFieldSchema(
+        key: 'model',
+        label: 'Model',
+        type: AssetFieldType.text,
+      ),
       AssetFieldSchema(
         key: 'year',
         label: 'Year of Manufacture',
@@ -553,7 +624,14 @@ abstract final class AssetSchemaService {
         label: 'Engine / Propulsion',
         type: AssetFieldType.dropdown,
         isRequired: false,
-        options: ['Outboard', 'Inboard', 'Sterndrive / I/O', 'Jet Drive', 'Sail / Auxiliary', 'Electric'],
+        options: [
+          'Outboard',
+          'Inboard',
+          'Sterndrive / I/O',
+          'Jet Drive',
+          'Sail / Auxiliary',
+          'Electric',
+        ],
       ),
       const AssetFieldSchema(
         key: 'engine_hp',
@@ -601,8 +679,16 @@ abstract final class AssetSchemaService {
         type: AssetFieldType.text,
         hint: 'e.g. Generator, Air Compressor, Pump, Mining Equipment',
       ),
-      const AssetFieldSchema(key: 'make', label: 'Make / Manufacturer', type: AssetFieldType.text),
-      const AssetFieldSchema(key: 'model', label: 'Model', type: AssetFieldType.text),
+      const AssetFieldSchema(
+        key: 'make',
+        label: 'Make / Manufacturer',
+        type: AssetFieldType.text,
+      ),
+      const AssetFieldSchema(
+        key: 'model',
+        label: 'Model',
+        type: AssetFieldType.text,
+      ),
       AssetFieldSchema(
         key: 'year',
         label: 'Year of Manufacture',

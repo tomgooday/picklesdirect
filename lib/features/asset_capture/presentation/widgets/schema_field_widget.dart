@@ -18,10 +18,7 @@ import 'package:pickles_direct/features/asset_capture/presentation/widgets/vin_s
 ///
 /// Field values are read from and written to AssetCaptureBloc via events.
 class SchemaFieldWidget extends StatefulWidget {
-  const SchemaFieldWidget({
-    required this.schema,
-    super.key,
-  });
+  const SchemaFieldWidget({required this.schema, super.key});
 
   final AssetFieldSchema schema;
 
@@ -51,9 +48,7 @@ class _SchemaFieldWidgetState extends State<SchemaFieldWidget> {
     final raw = values[_schema.key]?.toString() ?? '';
     if (_controller.text != raw) {
       _controller.text = raw;
-      _controller.selection = TextSelection.collapsed(
-        offset: raw.length,
-      );
+      _controller.selection = TextSelection.collapsed(offset: raw.length);
     }
   }
 
@@ -100,8 +95,7 @@ class _SchemaFieldWidgetState extends State<SchemaFieldWidget> {
       AssetFieldType.vinScanner => _buildVinField(context, error),
       AssetFieldType.number ||
       AssetFieldType.year ||
-      AssetFieldType.currency =>
-        _buildNumericField(context, error),
+      AssetFieldType.currency => _buildNumericField(context, error),
       AssetFieldType.text => _buildTextField(context, error),
     };
   }
@@ -202,10 +196,7 @@ class _SchemaFieldWidgetState extends State<SchemaFieldWidget> {
     );
     if (result != null && context.mounted) {
       context.read<AssetCaptureBloc>().add(
-        AssetVinScanned(
-          targetFieldKey: _schema.key,
-          value: result,
-        ),
+        AssetVinScanned(targetFieldKey: _schema.key, value: result),
       );
     }
   }
@@ -217,15 +208,14 @@ class _SchemaFieldWidgetState extends State<SchemaFieldWidget> {
         ? AppColours.dark
         : AppColours.light;
     final isFetching = state.gpsStatus == GpsStatus.fetching;
-    final address = state.locationAddress ??
-        state.fieldValues[_schema.key]?.toString();
+    final address =
+        state.locationAddress ?? state.fieldValues[_schema.key]?.toString();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          _schema.label +
-              (_schema.isRequired ? '' : ' (optional)'),
+          _schema.label + (_schema.isRequired ? '' : ' (optional)'),
           style: AppTextStyles.bodyMedium.copyWith(
             color: colours.onSurface,
             fontWeight: FontWeight.w500,
@@ -259,9 +249,9 @@ class _SchemaFieldWidgetState extends State<SchemaFieldWidget> {
           child: OutlinedButton.icon(
             onPressed: isFetching
                 ? null
-                : () => context
-                    .read<AssetCaptureBloc>()
-                    .add(const AssetGpsRequested()),
+                : () => context.read<AssetCaptureBloc>().add(
+                    const AssetGpsRequested(),
+                  ),
             icon: const Icon(Icons.my_location, size: AppDimensions.iconSizeSm),
             label: Text(
               address != null ? 'Update location' : 'Use My Location',

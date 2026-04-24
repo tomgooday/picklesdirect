@@ -95,10 +95,7 @@ class AssetCaptureBloc extends Bloc<AssetCaptureEvent, AssetCaptureState> {
       );
     } else {
       emit(
-        state.copyWith(
-          status: AssetCaptureStatus.loaded,
-          category: category,
-        ),
+        state.copyWith(status: AssetCaptureStatus.loaded, category: category),
       );
     }
   }
@@ -171,7 +168,8 @@ class AssetCaptureBloc extends Bloc<AssetCaptureEvent, AssetCaptureState> {
         }
       } on Exception catch (e) {
         _log.w('Geocoding failed', error: e);
-        address = '${position.latitude.toStringAsFixed(5)}, '
+        address =
+            '${position.latitude.toStringAsFixed(5)}, '
             '${position.longitude.toStringAsFixed(5)}';
       }
 
@@ -193,10 +191,7 @@ class AssetCaptureBloc extends Bloc<AssetCaptureEvent, AssetCaptureState> {
     }
   }
 
-  void _onVinScanned(
-    AssetVinScanned event,
-    Emitter<AssetCaptureState> emit,
-  ) {
+  void _onVinScanned(AssetVinScanned event, Emitter<AssetCaptureState> emit) {
     final updated = Map<String, dynamic>.from(state.fieldValues)
       ..[event.targetFieldKey] = event.value;
     final errors = Map<String, String>.from(state.validationErrors)
@@ -213,7 +208,7 @@ class AssetCaptureBloc extends Bloc<AssetCaptureEvent, AssetCaptureState> {
 
     final vendorId =
         await _secureStorage.read(key: AppConstants.storageKeyUserId) ??
-            'anonymous';
+        'anonymous';
     final draftId = state.draftId ?? const Uuid().v4();
     final now = DateTime.now();
 
@@ -265,10 +260,7 @@ class AssetCaptureBloc extends Bloc<AssetCaptureEvent, AssetCaptureState> {
   // ── Helpers ───────────────────────────────────────────────────────────────
 
   /// Derives a human-readable label from the most identifiable fields.
-  String _buildAssetLabel(
-    AssetCategory category,
-    Map<String, dynamic> values,
-  ) {
+  String _buildAssetLabel(AssetCategory category, Map<String, dynamic> values) {
     final parts = <String>[];
     final year = values['year'];
     final make = values['make'];
@@ -297,8 +289,7 @@ class AssetCaptureBloc extends Bloc<AssetCaptureEvent, AssetCaptureState> {
       if (!field.isRequired) continue;
 
       final raw = values[field.key];
-      final isEmpty =
-          raw == null || raw.toString().trim().isEmpty;
+      final isEmpty = raw == null || raw.toString().trim().isEmpty;
 
       if (isEmpty) {
         errors[field.key] = '${field.label} is required';
@@ -313,11 +304,9 @@ class AssetCaptureBloc extends Bloc<AssetCaptureEvent, AssetCaptureState> {
           errors[field.key] = 'Enter a valid number';
         } else {
           if (field.minValue != null && numeric < field.minValue!) {
-            errors[field.key] =
-                'Minimum value is ${field.minValue!.toInt()}';
+            errors[field.key] = 'Minimum value is ${field.minValue!.toInt()}';
           } else if (field.maxValue != null && numeric > field.maxValue!) {
-            errors[field.key] =
-                'Maximum value is ${field.maxValue!.toInt()}';
+            errors[field.key] = 'Maximum value is ${field.maxValue!.toInt()}';
           }
         }
       }
@@ -326,8 +315,7 @@ class AssetCaptureBloc extends Bloc<AssetCaptureEvent, AssetCaptureState> {
           field.type == AssetFieldType.vinScanner) {
         if (field.maxLength != null &&
             raw.toString().length > field.maxLength!) {
-          errors[field.key] =
-              'Maximum ${field.maxLength} characters';
+          errors[field.key] = 'Maximum ${field.maxLength} characters';
         }
       }
     }
