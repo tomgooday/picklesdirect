@@ -106,11 +106,20 @@ Legend: ✅ Complete · 🔧 In progress · ⏳ Not started · 🔒 Blocked (nee
 
 | Component | Status | Notes |
 |-----------|--------|-------|
-| PhotoCapturePage | ⏳ | Stub accepts `draftId` |
-| Camera integration | ⏳ | `camera`, `image_picker` deps ready |
-| Photo compression | ⏳ | `flutter_image_compress` dep ready; target 500 KB |
-| Photo category assignment | ⏳ | Schema-driven photo categories (overview, serial plate, etc.) |
-| Min/max enforcement | ⏳ | Min 8, max 20 photos (BR constants defined) |
+| Domain entity (`SubmissionPhoto`, `PhotoCategory`) | ✅ | Full Equatable entities; 11 categories (5 required) |
+| Repository interface (`PhotoRepository`) | ✅ | addPhoto / listPhotos / deletePhoto / reorderPhotos / deleteAllForDraft |
+| Use cases (`AddPhoto`, `ListPhotos`, `DeletePhoto`) | ✅ | @injectable; max-count enforced in `AddPhoto` |
+| Repository implementation (`PhotoRepositoryImpl`) | ✅ | Drift + `flutter_image_compress` + `image` for dimensions; file to `{docs}/photos/{draftId}/` |
+| `PhotoCompressionService` | ✅ | `flutter_image_compress`; target 80% JPEG quality, min 800×600 |
+| `PhotoCaptureBloc` | ✅ | Started / ImageCaptured / GalleryPicked / CategorySelected / Deleted / Reordered / SubmitRequested |
+| **PhotoCapturePage** | ✅ | Progress bar, 3-col grid, camera + gallery (feature-flagged), category bottom sheet, Continue CTA |
+| `PhotoCategorySheet` | ✅ | Scrollable sheet; required/optional sections; covered indicator |
+| `PhotoThumbnailGrid` | ✅ | 3-column grid; delete button; category label overlay |
+| **SubmissionConfirmationPage** | ✅ | Success illustration, draft summary card, photo strip, sync info, Dashboard CTA |
+| Photo reordering | ✅ | Drag-reorder persists sort order to Drift |
+| Min/max enforcement | ✅ | Min 8, max 20; progress bar + missing-category hint |
+| Gallery import | ✅ | Behind `flagPhotoGalleryImport` feature flag |
+| Route (`/submit/confirmation/:draftId`) | ✅ | Added to `Routes` + `AppRouter` |
 
 ---
 
@@ -193,7 +202,7 @@ These items are blocked on information from the Pickles team or Platform Ops:
 ```
 1.  Dashboard (stub → real)         ✅ DONE — local data wired; live data pending middleware
 2.  Asset Capture Long Form         ✅ DONE — 8 categories, full form engine, VIN scanner, GPS, draft auto-save
-3.  Photo Capture                   Depends on Asset Capture draftId — ready to build
+3.  Photo Capture                   ✅ DONE — camera + gallery, 11 categories, compression, grid, confirmation
 4.  Sync (SubmissionSyncService)    Needs middleware spec; engine already built
 5.  Auth repository (real impl)     Needs Azure Entra + middleware spec
 6.  Push notifications              firebase_messaging ready

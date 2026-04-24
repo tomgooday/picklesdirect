@@ -15,6 +15,7 @@ import 'package:pickles_direct/features/dashboard/presentation/pages/dashboard_p
 import 'package:pickles_direct/features/help/presentation/pages/help_page.dart';
 import 'package:pickles_direct/features/onboarding/presentation/pages/onboarding_page.dart';
 import 'package:pickles_direct/features/photo_capture/presentation/pages/photo_capture_page.dart';
+import 'package:pickles_direct/features/photo_capture/presentation/pages/submission_confirmation_page.dart';
 import 'package:pickles_direct/features/profile/presentation/pages/profile_page.dart';
 import 'package:pickles_direct/features/routing/presentation/pages/item_quantity_routing_page.dart';
 import 'package:pickles_direct/features/submission_status/presentation/pages/submission_detail_page.dart';
@@ -119,6 +120,13 @@ class AppRouter {
           name: 'photoCapture',
           builder: (_, state) =>
               PhotoCapturePage(draftId: state.pathParameters['draftId']!),
+        ),
+        GoRoute(
+          path: '${Routes.submissionConfirmation}/:draftId',
+          name: 'submissionConfirmation',
+          builder: (_, state) => SubmissionConfirmationPage(
+            draftId: state.pathParameters['draftId']!,
+          ),
         ),
 
         // ── Submission & valuation ───────────────────────────────────

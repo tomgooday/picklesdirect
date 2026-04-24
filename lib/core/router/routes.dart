@@ -18,6 +18,7 @@ abstract final class Routes {
   static const String assetCategory = '/submit/category';
   static const String assetForm = '/submit/form';
   static const String photoCapture = '/submit/photos';
+  static const String submissionConfirmation = '/submit/confirmation';
 
   // ── Bulk Lead Capture (2+ items path) ─────────────────────────────────────
   static const String bulkLead = '/bulk-lead';
