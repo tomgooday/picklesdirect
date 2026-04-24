@@ -16,6 +16,16 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:logger/logger.dart' as _i974;
 
+import '../../features/asset_capture/data/repositories/asset_draft_repository_impl.dart'
+    as _i363;
+import '../../features/asset_capture/domain/repositories/asset_draft_repository.dart'
+    as _i899;
+import '../../features/asset_capture/domain/usecases/load_asset_draft.dart'
+    as _i268;
+import '../../features/asset_capture/domain/usecases/save_asset_draft.dart'
+    as _i812;
+import '../../features/asset_capture/presentation/bloc/asset_capture_bloc.dart'
+    as _i28;
 import '../../features/auth/data/auth_state_stream_bridge.dart' as _i853;
 import '../../features/auth/domain/repositories/auth_repository.dart' as _i787;
 import '../../features/auth/presentation/bloc/auth_bloc.dart' as _i797;
@@ -79,6 +89,13 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i991.SubmitBulkLead>(
       () => _i991.SubmitBulkLead(gh<_i427.BulkLeadRepository>()),
     );
+    gh.lazySingleton<_i899.AssetDraftRepository>(
+      () => _i363.AssetDraftRepositoryImpl(
+        gh<_i406.AppDatabase>(),
+        gh<_i320.EncryptionService>(),
+        gh<_i974.Logger>(),
+      ),
+    );
     gh.lazySingleton<_i846.SyncEngine>(
       () => _i846.SyncEngineImpl(
         gh<_i932.NetworkInfo>(),
@@ -94,6 +111,20 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i36.AuthStateStream>(
       () => _i853.AuthStateStreamBridge(gh<_i797.AuthBloc>()),
+    );
+    gh.factory<_i268.LoadAssetDraft>(
+      () => _i268.LoadAssetDraft(gh<_i899.AssetDraftRepository>()),
+    );
+    gh.factory<_i812.SaveAssetDraft>(
+      () => _i812.SaveAssetDraft(gh<_i899.AssetDraftRepository>()),
+    );
+    gh.factory<_i28.AssetCaptureBloc>(
+      () => _i28.AssetCaptureBloc(
+        gh<_i812.SaveAssetDraft>(),
+        gh<_i268.LoadAssetDraft>(),
+        gh<_i558.FlutterSecureStorage>(),
+        gh<_i974.Logger>(),
+      ),
     );
     gh.singleton<_i667.DioClient>(
       () => _i667.DioClient(

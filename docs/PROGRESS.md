@@ -85,12 +85,20 @@ Legend: ✅ Complete · 🔧 In progress · ⏳ Not started · 🔒 Blocked (nee
 
 | Component | Status | Notes |
 |-----------|--------|-------|
-| AssetCategoryPage | ⏳ | Stub only — `TODO: implement` |
-| AssetFormPage | ⏳ | Stub accepts `categoryKey` + optional `draftId` |
-| Schema-driven form engine | ⏳ | Needs middleware schema JSON spec |
-| VIN / barcode scanner | ⏳ | `mobile_scanner` dep ready |
-| GPS capture | ⏳ | `geolocator` dep ready |
-| Draft auto-save | ⏳ | Drift tables ready |
+| Domain entities (`AssetDraft`, `AssetCategory`, `AssetFieldSchema`) | ✅ | Full Equatable entities |
+| Repository interface (`AssetDraftRepository`) | ✅ | save / load / list / delete |
+| Use cases (`SaveAssetDraft`, `LoadAssetDraft`) | ✅ | @injectable; draft limit enforced |
+| Repository implementation (`AssetDraftRepositoryImpl`) | ✅ | Drift + AES-256-GCM encryption wired |
+| `AssetSchemaService` (hardcoded stub) | ✅ | 8 categories: earthmoving, transport, agriculture, forklifts, cranes, vehicles, marine, other |
+| `AssetCaptureBloc` | ✅ | Started / FieldChanged / GpsRequested / VinScanned / SaveDraft / Submit |
+| **AssetCategoryPage** | ✅ | 2-column responsive grid; tap → AssetFormPage |
+| **AssetFormPage** | ✅ | Schema-driven; auto-save on pop; validation summary; Continue to Photos CTA |
+| `SchemaFieldWidget` (form engine) | ✅ | text / number / year / dropdown / textarea / vinScanner / gpsCapture / currency |
+| `VinScannerSheet` | ✅ | Camera + targeting overlay + torch toggle via `mobile_scanner` |
+| VIN / barcode scanner | ✅ | `mobile_scanner` wired via `VinScannerSheet` bottom sheet |
+| GPS capture | ✅ | `geolocator` + `geocoding` + permission handler; Australia bounds check |
+| Draft auto-save | ✅ | Saves to Drift on "Save Draft" tap and on back navigation (`PopScope`) |
+| Schema-driven form (server) | ⏳ | Replace `AssetSchemaService` with `GET /schemas/{categoryKey}` once spec arrives |
 
 ---
 
@@ -184,8 +192,8 @@ These items are blocked on information from the Pickles team or Platform Ops:
 
 ```
 1.  Dashboard (stub → real)         ✅ DONE — local data wired; live data pending middleware
-2.  Asset Capture Long Form         Needs schema spec; camera/GPS ready
-3.  Photo Capture                   Depends on Asset Capture draftId
+2.  Asset Capture Long Form         ✅ DONE — 8 categories, full form engine, VIN scanner, GPS, draft auto-save
+3.  Photo Capture                   Depends on Asset Capture draftId — ready to build
 4.  Sync (SubmissionSyncService)    Needs middleware spec; engine already built
 5.  Auth repository (real impl)     Needs Azure Entra + middleware spec
 6.  Push notifications              firebase_messaging ready
